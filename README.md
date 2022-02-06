@@ -11,5 +11,5 @@ conda install -c anaconda pip<br/>
 pip install numpy --upgrade<br/>
 conda install -c pytrch torchvision<br/>
 conda install -c anaconda ipython<br/>
-pip install PyQt6
+pip install PyQt6<br/>
 <p/>
