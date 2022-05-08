@@ -12,4 +12,9 @@ pip install numpy --upgrade<br/>
 conda install -c pytrch torchvision<br/>
 conda install -c anaconda ipython<br/>
 pip install PyQt6<br/>
+pip install facenet-pytorch<br/>
+pip install mmcv<br/>
+conda install -c conda-forge tensorboard<br/>
+conda install -c anaconda pandas<br/>
+https://archive.org/download/lfw-dataset<br/>
 <p/>
