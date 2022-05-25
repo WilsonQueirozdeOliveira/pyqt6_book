@@ -4,7 +4,7 @@
 miniconda<br/>
 conda create --name tec python=3.6.9 ipykernel<br/>
 conda create -n tec_py39 python=3.9 anaconda<br/>
-for python gtk : conda install -c conda-forge pygobject<br/>
+for python gtk wsl : sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-3.0<br/>
 python -m ipykernel install --user<br/>
 conda install -c anaconda jupyter<br/>
 conda install -c conda-forge opencv<br/>
