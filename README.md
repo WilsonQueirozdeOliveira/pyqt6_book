@@ -3,7 +3,8 @@
 <p>Dependencies<br/>
 miniconda<br/>
 conda create --name tec python=3.6.9 ipykernel<br/>
-(2022)  conda create -n tec_py39 python=3.9 anaconda<br/>
+conda create -n tec_py39 python=3.9 anaconda<br/>
+for python gtk : conda install -c conda-forge pygobject<br/>
 python -m ipykernel install --user<br/>
 conda install -c anaconda jupyter<br/>
 conda install -c conda-forge opencv<br/>
