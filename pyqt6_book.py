@@ -14,7 +14,7 @@ class JanelaPrincipal(QWidget):
 
     def Interface(self):
         self.fundo = QLabel(self)
-        self.fundo.setPixmap(QPixmap('logo_wilson_eletrica.jpg'))
+        self.fundo.setPixmap(QPixmap('background.jpg'))
         
         self.img = QLabel(self)
         self.img.setPixmap(QPixmap('logo_wilson_eletrica.jpg'))
@@ -38,7 +38,7 @@ class JanelaPrincipal(QWidget):
         
         botao4 = QPushButton('Entrar', self)
         botao4.resize(100,25)
-        botao4.move(50,175)
+        botao4.move(50,185)
         botao4.clicked.connect(self.salva_dados)
         
         texto1 = QLabel('Hello World!!!', self)
@@ -67,6 +67,10 @@ class JanelaPrincipal(QWidget):
         self.caixa_texto2.setEchoMode(QLineEdit.EchoMode.Password)
         self.caixa_texto2.resize(100,25)
         self.caixa_texto2.move(75,130)
+        
+        self.salvar_checkbox = QCheckBox('Salvar informações', self)
+        self.salvar_checkbox.move(90,160)
+        self.salvar_checkbox.clicked.connect(self.salva_dados)
         
     def sair(self):
         sys.exit(qt.exec())
