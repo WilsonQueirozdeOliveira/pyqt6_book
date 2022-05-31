@@ -86,10 +86,14 @@ class JanelaPrincipal(QWidget):
         self.texto2.move(5,25)
         
     def salva_dados(self):
-        base = []
-        base.append(self.caixa_texto1.text())
-        base.append(self.caixa_texto2.text())
-        print(base)
+        if self.salvar_checkbox.isChecked():
+            base = []
+            base.append(self.caixa_texto1.text())
+            base.append(self.caixa_texto2.text())
+            print(base)
+            print(f'Nome do usuário: {base[0]}, Senha: {base[1]}')
+        else:
+            print(f'Usuário optou por não salvar os dados.')
         
 qt = QApplication(sys.argv)
 app = JanelaPrincipal()
