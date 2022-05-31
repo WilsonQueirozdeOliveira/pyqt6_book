@@ -18,7 +18,7 @@ class JanelaPrincipal(QWidget):
         
         self.img = QLabel(self)
         self.img.setPixmap(QPixmap('logo_wilson_eletrica.jpg'))
-        self.img.move(200,200)
+        self.img.move(250,200)
         self.img.resize(200,200)
         
         botao1 = QPushButton('SAIR', self)
@@ -38,8 +38,9 @@ class JanelaPrincipal(QWidget):
         
         botao4 = QPushButton('Entrar', self)
         botao4.resize(100,25)
-        botao4.move(50,185)
+        botao4.move(90,215)
         botao4.clicked.connect(self.salva_dados)
+        botao4.clicked.connect(self.sel_ambiente)
         
         texto1 = QLabel('Hello World!!!', self)
         texto1.resize(100,25)
@@ -72,6 +73,13 @@ class JanelaPrincipal(QWidget):
         self.salvar_checkbox.move(90,160)
         self.salvar_checkbox.clicked.connect(self.salva_dados)
         
+        self.seleciona_ambiente = QComboBox(self)
+        self.seleciona_ambiente.move(90, 185)
+        #self.seleciona_ambiente.addItem('Ambiente Comum')
+        #self.seleciona_ambiente.addItem('Painel de controle')
+        self.seleciona_ambiente.addItems(['Ambiente Comum',
+                                          'Painel de controle'])
+        
     def sair(self):
         sys.exit(qt.exec())
         
@@ -90,11 +98,15 @@ class JanelaPrincipal(QWidget):
             base = []
             base.append(self.caixa_texto1.text())
             base.append(self.caixa_texto2.text())
-            print(base)
+            #print(base)
             print(f'Nome do usuário: {base[0]}, Senha: {base[1]}')
         else:
             print(f'Usuário optou por não salvar os dados.')
-        
+                
+    def sel_ambiente(self):
+        ambiente_selecionado = self.seleciona_ambiente.currentText()
+        print(f'O ambiente escolhido é: {ambiente_selecionado}')
+    
 qt = QApplication(sys.argv)
 app = JanelaPrincipal()
 sys.exit(qt.exec())
