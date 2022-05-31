@@ -8,6 +8,7 @@
 - conda install -c anaconda pip
 - pip install numpy --upgrade
 - pip install PyQt6
+- conda install -c conda-forge nodejs
 
 ## comands
 - jupyter lab
