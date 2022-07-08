@@ -24,7 +24,8 @@ class JanelaPrincipal(QWidget):
         botao1 = QPushButton('SAIR', self)
         botao1.resize(100,50)
         botao1.move(800,500)
-        botao1.clicked.connect(self.sair)
+        botao1.clicked.connect(self.confirma_saida)
+        #botao1.clicked.connect(self.sair)
         
         botao2 = QPushButton('MAIUSCULO', self)
         botao2.resize(100,25)
@@ -119,7 +120,17 @@ class JanelaPrincipal(QWidget):
             print(f'Tema Claro Escolhido')
         else:
             print(f'Tema Escuro Escolhido')
-    
+
+    def confirma_saida(self):
+        confirma = QMessageBox.question(self,
+                                        'Atenção',
+                                        'Deseja mesmo sair?',
+                                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel)
+        if confirma == QMessageBox.StandardButton.Yes:
+            sys.exit(qt.exec())
+        else:
+            pass
+   
 qt = QApplication(sys.argv)
 app = JanelaPrincipal()
 sys.exit(qt.exec())
