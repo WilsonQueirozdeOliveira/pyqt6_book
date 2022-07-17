@@ -14,10 +14,10 @@ class JanelaPrincipal(QWidget):
 
     def Interface(self):
         self.fundo = QLabel(self)
-        self.fundo.setPixmap(QPixmap('background.jpg'))
+        self.fundo.setPixmap(QPixmap('background_gray.jpg'))
         
         self.img = QLabel(self)
-        self.img.setPixmap(QPixmap('logo_wilson_eletrica.jpg'))
+        self.img.setPixmap(QPixmap('python.png'))
         self.img.move(280,200)
         self.img.resize(200,200)
         
@@ -128,7 +128,7 @@ class JanelaPrincipal(QWidget):
                                         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel)
         if confirma == QMessageBox.StandardButton.Yes:
             sys.exit(qt.exec())
-        else:
+        if confirma == QMessageBox.StandardButton.Cancel:
             pass
    
 qt = QApplication(sys.argv)
