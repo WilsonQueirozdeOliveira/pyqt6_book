@@ -9,6 +9,7 @@
 - pip install numpy --upgrade
 - pip install PyQt6
 - conda install -c conda-forge nodejs
+- conda install -c conda-forge opencv
 
 ## comands
 - jupyter lab
