@@ -3,3 +3,6 @@
 .gitignore~
 .pyqt6_book.py.un~
 pyqt6_book.py~
+.background.py.un~
+.pyqt6_book.py.swp
+background.py~
