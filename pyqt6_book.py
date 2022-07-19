@@ -18,7 +18,7 @@ class JanelaPrincipal(QWidget):
         
         self.img = QLabel(self)
         self.img.setPixmap(QPixmap('python.png'))
-        self.img.move(280,200)
+        self.img.move(80,250)
         self.img.resize(200,200)
         
         botao1 = QPushButton('SAIR', self)
@@ -122,7 +122,8 @@ class JanelaPrincipal(QWidget):
             print(f'Tema Escuro Escolhido')
 
     def confirma_saida(self):
-        confirma = QMessageBox.question(self,
+        #confirma = QMessageBox.question(self,
+        confirma = QMessageBox.critical(self,
                                         'Atenção',
                                         'Deseja mesmo sair?',
                                         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel)
