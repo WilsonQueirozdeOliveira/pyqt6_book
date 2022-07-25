@@ -87,6 +87,11 @@ class JanelaPrincipal(QWidget):
         self.seleciona_tema1.setChecked(True)
         self.seleciona_tema2 = QRadioButton('Tema Escuro', self)
         self.seleciona_tema2.move(170,215)
+
+        botao_sobre = QPushButton('Sobre', self)
+        botao_sobre.move(800,50)
+        botao_sobre.clicked.connect(self.sobre)
+
         
     def sair(self):
         sys.exit(qt.exec())
@@ -131,6 +136,9 @@ class JanelaPrincipal(QWidget):
             sys.exit(qt.exec())
         if confirma == QMessageBox.StandardButton.Cancel:
             pass
+
+    def sobre(self):
+        sobre = QMessageBox.information(self,'Meu Programa','Versão 1.0.0')
    
 qt = QApplication(sys.argv)
 app = JanelaPrincipal()
