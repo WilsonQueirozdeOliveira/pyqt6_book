@@ -1,3 +1,4 @@
+from re import S
 import sys 
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
@@ -92,6 +93,16 @@ class JanelaPrincipal(QWidget):
         botao_sobre.move(800,50)
         botao_sobre.clicked.connect(self.sobre)
 
+        self.tamanho_fonte = QSpinBox(self)
+        self.tamanho_fonte.move(520,297)
+        texto_tamanho_fonte = QLabel('Tamanho da Fonte:', self)
+        texto_tamanho_fonte.move(405,300)
+        self.tamanho_fonte.setMinimum(100)
+        self.tamanho_fonte.setMaximum(150)
+        self.tamanho_fonte.setSuffix('%')
+        self.tamanho_fonte.setSingleStep(10)
+        self.tamanho_fonte.valueChanged.connect(self.tam_fonte)
+
         
     def sair(self):
         sys.exit(qt.exec())
@@ -139,6 +150,33 @@ class JanelaPrincipal(QWidget):
 
     def sobre(self):
         sobre = QMessageBox.information(self,'Meu Programa','Versão 1.0.0')
+
+    def tam_fonte(self):
+        valor = self.tamanho_fonte.value()
+        fonte0 = QFont('Times',10)
+        fonte1 = QFont('Times',11)
+        fonte2 = QFont('Times',12)
+        fonte3 = QFont('Times',13)
+        fonte4 = QFont('Times',14)
+        fonte5 = QFont('Times',15)
+        if valor == 110:
+            self.caixa_texto1.setFont(fonte1)
+            self.caixa_texto2.setFont(fonte1)
+        elif valor == 120:
+            self.caixa_texto1.setFont(fonte2)
+            self.caixa_texto2.setFont(fonte2)
+        elif valor == 130:
+            self.caixa_texto1.setFont(fonte3)
+            self.caixa_texto2.setFont(fonte3)
+        elif valor == 140:
+            self.caixa_texto1.setFont(fonte4)
+            self.caixa_texto2.setFont(fonte4)
+        elif valor == 150:
+            self.caixa_texto1.setFont(fonte5)
+            self.caixa_texto2.setFont(fonte5)
+        else:
+            self.caixa_texto1.setFont(fonte0)
+            self.caixa_texto2.setFont(fonte0)
    
 qt = QApplication(sys.argv)
 app = JanelaPrincipal()
