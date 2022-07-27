@@ -1,3 +1,4 @@
+from ast import arguments
 from re import S
 import sys 
 from PyQt6.QtWidgets import *
@@ -44,6 +45,7 @@ class JanelaPrincipal(QWidget):
         botao4.clicked.connect(self.salva_dados)
         botao4.clicked.connect(self.sel_ambiente)
         botao4.clicked.connect(self.sel_tema)
+        botao4.clicked.connect(self.envia_argumento)
         
         texto1 = QLabel('Hello World!!!', self)
         texto1.resize(100,25)
@@ -102,6 +104,15 @@ class JanelaPrincipal(QWidget):
         self.tamanho_fonte.setSuffix('%')
         self.tamanho_fonte.setSingleStep(10)
         self.tamanho_fonte.valueChanged.connect(self.tam_fonte)
+
+        self.texto = QTextEdit(self)
+        self.texto.setFixedWidth(280)
+        self.texto.setFixedHeight(40)
+        self.texto.move(250,158)
+        argumentos = QLabel('Insira suas observações abaixo:', self)
+        argumentos.move(250,143)
+        self.texto_checkbox = QCheckBox('Salvar observações', self)
+        self.texto_checkbox.move(250, 198)
 
         
     def sair(self):
@@ -177,7 +188,16 @@ class JanelaPrincipal(QWidget):
         else:
             self.caixa_texto1.setFont(fonte0)
             self.caixa_texto2.setFont(fonte0)
-   
+        
+    def envia_argumento(self):
+        if self.texto_checkbox.isChecked():
+            observacoes = []
+            observacoes.append(self.texto.toPlainText())
+            print('Observações salvas com sucesso.')
+            print(f'{observacoes}')
+        else:
+            print('O usuário não inseriu nenhuma observação.')
+
 qt = QApplication(sys.argv)
 app = JanelaPrincipal()
 sys.exit(qt.exec())
