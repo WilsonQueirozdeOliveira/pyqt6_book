@@ -47,6 +47,7 @@ class JanelaPrincipal(QWidget):
         elemento.append(self.adiciona_cliente.text())
         print(elemento)
         self.lista.addItem(elemento[0])
+        self.adiciona_cliente.setText(elemento[0])
         pass
 
     def seleciona_elemento():
