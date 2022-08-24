@@ -52,11 +52,18 @@ class JanelaPrincipal(QWidget):
 
     def seleciona_elemento(self):
         elemento = []
-        elemento = self.lista.currentItem().text()
-        print(elemento)
+        if self.lista.currentItem():
+            elemento = self.lista.currentItem().text()
+            print(elemento)
+        else:
+            print('no item on list / or no item selected')
         pass
 
-    def remove_elemento():
+    def remove_elemento(self):
+        indice = []
+        indice = self.lista.currentRow()
+        print(indice)
+        self.lista.takeItem(indice)
         pass
 
     def remove_tudo():
