@@ -48,13 +48,15 @@ class JanelaPrincipal(QWidget):
         print(elemento)
         self.lista.addItem(elemento[0])
         self.adiciona_cliente.setText(elemento[0])
+        print('element added to list:',elemento)
         pass
 
     def seleciona_elemento(self):
         elemento = []
         if self.lista.currentItem():
             elemento = self.lista.currentItem().text()
-            print(elemento)
+            print('selected elemanet:',elemento)
+            print('list index:',self.lista.currentRow())
         else:
             print('no item on list / or no item selected')
         pass
@@ -62,14 +64,28 @@ class JanelaPrincipal(QWidget):
     def remove_elemento(self):
         indice = []
         indice = self.lista.currentRow()
-        print(indice)
+        print('item removed from list:',indice)
+        print('list index:',self.lista.currentRow())
         self.lista.takeItem(indice)
         pass
 
-    def remove_tudo():
+    def remove_tudo(self):
+        self.lista.clear()
+        print('list clear')
         pass
 
-    def confirma_saida():
+    def confirma_saida(self):
+        confirma = QMessageBox.question(self,
+        #confirma = QMessageBox.critical(self,
+                                        'Atenção',
+                                        'Deseja mesmo sair?',
+                                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel)
+        if confirma == QMessageBox.StandardButton.Yes:
+            print('exit comfirmed')
+            sys.exit(qt.exec())
+        if confirma == QMessageBox.StandardButton.Cancel:
+            print('exit not comfirmed')
+            pass
         pass
 
 qt = QApplication(sys.argv)
