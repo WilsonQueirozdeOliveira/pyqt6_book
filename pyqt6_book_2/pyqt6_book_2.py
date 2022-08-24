@@ -50,7 +50,10 @@ class JanelaPrincipal(QWidget):
         self.adiciona_cliente.setText(elemento[0])
         pass
 
-    def seleciona_elemento():
+    def seleciona_elemento(self):
+        elemento = []
+        elemento = self.lista.currentItem().text()
+        print(elemento)
         pass
 
     def remove_elemento():
