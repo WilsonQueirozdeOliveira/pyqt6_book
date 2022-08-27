@@ -10,7 +10,7 @@ class JanelaPrincipal(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Sistema')
-        self.setWindowIcon(QIcon('logo_wilson_eletrica.jpg'))
+        self.setWindowIcon(QIcon('python.png'))
         self.setGeometry(150, 80, 1000, 600)
         
         self.show()
