@@ -14,15 +14,22 @@ class JanelaPrincipal(QMainWindow):
 
         self.central = QWidget()
         self.grid = QGridLayout(self.central)
+        self.grid.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         self.botao1 = QPushButton('Botão 1')
-        self.grid.addWidget(self.botao1, 0, 0, 1, 1)
+        self.botao1.clicked.connect(self.botao_funcao1)
+        self.grid.addWidget(self.botao1, 1, 1, 2, 1)
+        #self.grid.addWidget(widget,linha,coluna,
+        # espansão da linha,espansão da coluna)
 
         self.botao2 = QPushButton('Botão 2')
-        self.grid.addWidget(self.botao2, 1, 2, 1, 1)
+        self.grid.addWidget(self.botao2, 2, 2, 8, 1)
+
+        self.botao3 = QPushButton('Botão 3')
+        self.grid.addWidget(self.botao3, 2, 1, 8,1)
 
         self.botao0 = QPushButton('SAIR')
-        self.grid.addWidget(self.botao0, 2, 2, 1, 1)
+        self.grid.addWidget(self.botao0, 3, 2, 13, 1)
         self.botao0.clicked.connect(self.confirma_saida)
 
         self.setCentralWidget(self.central)       
@@ -41,6 +48,9 @@ class JanelaPrincipal(QMainWindow):
         if confirma == QMessageBox.StandardButton.Cancel:
             print('exit not comfirmed')
             pass
+        pass
+
+    def botao_funcao1(self):
         pass
       
 qt = QApplication(sys.argv)
