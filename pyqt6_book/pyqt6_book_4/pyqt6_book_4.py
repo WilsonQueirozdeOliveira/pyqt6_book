@@ -15,7 +15,8 @@ class JanelaPrincipal(QWidget):
         
     def Interface(self):
         layout = QHBoxLayout()
-
+        #layout = QVBoxLayout()
+        
         botao1 = QPushButton('Botão 1',self)
         botao2 = QPushButton('Botão 2',self)
         botao3 = QPushButton('Botão 3',self)
@@ -25,9 +26,9 @@ class JanelaPrincipal(QWidget):
         layout.addWidget(botao2)
         layout.addWidget(botao3)
         layout.addStretch()
-        
+             
         self.setLayout(layout)
-
+        
         botao0 = QPushButton('SAIR', self)
         layout.addWidget(botao0)
         #layout.addStretch()
