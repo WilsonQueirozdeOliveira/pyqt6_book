@@ -1,5 +1,7 @@
 # Tec_do_Brasil
 
+- qt6 book: Interfaces Gráficas com Python + PyQt6
+
 ## Dependecies to env (tec_py39)
 - conda create -n tec_py39 python=3.9 anaconda
 - for python gtk wsl : sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-3.0
