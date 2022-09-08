@@ -1,6 +1,7 @@
 # Tec_do_Brasil
 
 - qt6 book: Interfaces Gráficas com Python + PyQt6
+- https://sqlitebrowser.org/
 
 ## Dependecies to env (tec_py39)
 - conda create -n tec_py39 python=3.9 anaconda
