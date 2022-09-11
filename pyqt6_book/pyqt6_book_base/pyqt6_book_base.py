@@ -34,6 +34,16 @@ class JanelaPrincipal(QWidget):
             print('exit not comfirmed')
             pass
         pass
+
+    def closeEvent(self, event):
+        close = QMessageBox.question(self,
+                                         "QUIT",
+                                         "Are you sure want to stop process?",
+                                         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        if close == QMessageBox.StandardButton.Yes:
+            event.accept()
+        else:
+            event.ignore()
       
 qt = QApplication(sys.argv)
 app = JanelaPrincipal()
