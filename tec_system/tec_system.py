@@ -10,42 +10,97 @@ class JanelaPrincipal(QWidget):
         super().__init__()
         self.setWindowTitle('Cadastro de Clientes')
         self.setWindowIcon(QIcon('icone.png'))
-        self.setGeometry(150,150,400,320)
+        self.setGeometry(0,30,680,600)
         self.Interface()
         
     def Interface(self):
         layout = QVBoxLayout()
 
-        self.abas = QTabWidget()
+        self.tabs = QTabWidget()
 
-        self.aba1 = QWidget()
-        self.abas.addTab(self.aba1, 'Configurar máquina')
-        layout_aba1 = QHBoxLayout()
+        # tab1
+        self.tab1 = QWidget()
+        self.tabs.addTab(self.tab1, 'Configurar máquina')
+        layout_tab1 = QHBoxLayout()
 
-        self.aba2 = QWidget()
-        self.abas.addTab(self.aba2, 'Cálculos de transporte')
-        layout_aba2 = QHBoxLayout()
+        # tab2
+        self.tab2 = QWidget()
+        self.tabs.addTab(self.tab2, 'Cálculos de transporte')
+        layout_tab2 = QHBoxLayout()
 
-        self.aba3 = QWidget()
-        self.abas.addTab(self.aba3, 'sobre')
-        layout_aba3 = QHBoxLayout()
+        # Imput column 0 tab2
+        layout_input_column_0_tab2 = QVBoxLayout()
+        
+        velocidade_do_motor = QLabel('Velocidade do motor:')
+        layout_input_column_0_tab2.addWidget(velocidade_do_motor)
+        frequencia = QLabel('Frequencia(Hz):')
+        layout_input_column_0_tab2.addWidget(frequencia)
+        self.input_frequencia = QLineEdit(self)
+        self.input_frequencia.setPlaceholderText('Hz')
+        self.input_frequencia.textChanged.connect(self.calcular)
+        layout_input_column_0_tab2.addWidget(self.input_frequencia)
+        
+        polos = QLabel('Polos(Nº):')
+        layout_input_column_0_tab2.addWidget(polos)
+        self.input_polos = QLineEdit(self)
+        self.input_polos.setPlaceholderText('Nº(2-4-8-16)')
+        self.input_polos.textChanged.connect(self.calcular)
+        layout_input_column_0_tab2.addWidget(self.input_polos)
+        
+        self.par_de_polos = QLabel('Par de Polos(Nº): ')
+        layout_input_column_0_tab2.addWidget(self.par_de_polos)
 
-        layout.addWidget(self.abas)
+        rps = QLabel('RPS:')
+        layout_input_column_0_tab2.addWidget(rps)
+        rpm = QLabel('RPM:')
+        layout_input_column_0_tab2.addWidget(rpm)
+        escoregamento = QLabel('Escoregamento(%):')
+        layout_input_column_0_tab2.addWidget(escoregamento)
+        input_escoregamento = QLineEdit(self)
+        input_escoregamento.setPlaceholderText('%')
+        layout_input_column_0_tab2.addWidget(input_escoregamento)
+        rpm_real = QLabel('RPM de Saida ~Real: ')
+        layout_input_column_0_tab2.addWidget(rpm_real)
+        layout_input_column_0_tab2.addStretch()
 
-        self.aba1.setLayout(layout_aba1)
-        self.aba2.setLayout(layout_aba2)
-        self.aba3.setLayout(layout_aba3)
+        layout_tab2.addLayout(layout_input_column_0_tab2)
 
-        botao0 = QPushButton('SAIR', self)
+        # Imput column 1 tab2
+        layout_input_column_1_tab2 = QVBoxLayout()
+        
+        velocidade_do_motor = QLabel('Velocidade do motor:')
+        layout_input_column_1_tab2.addWidget(velocidade_do_motor)
+        frequencia = QLabel('Frequencia(Hz):')
+        layout_input_column_1_tab2.addWidget(frequencia)
+        input_frequencia = QLineEdit(self)
+        input_frequencia.setPlaceholderText('Hz')
+        layout_input_column_1_tab2.addWidget(input_frequencia)
+        layout_input_column_1_tab2.addStretch()
+
+        layout_tab2.addLayout(layout_input_column_1_tab2)
+        layout_tab2.addStretch()
+        
+        # tab3
+        self.tab3 = QWidget()
+        self.tabs.addTab(self.tab3, 'sobre')
+        layout_tab3 = QHBoxLayout()
+
+        layout.addWidget(self.tabs)
+
+        self.tab1.setLayout(layout_tab1)
+        self.tab2.setLayout(layout_tab2)
+        self.tab3.setLayout(layout_tab3)
+
+        botao_sair = QPushButton('SAIR', self)
         #botao0.move(275,260)
-        botao0.clicked.connect(self.confirma_saida)
+        botao_sair.clicked.connect(self.confirma_saida)
 
         layout_botoes_inferiores = QHBoxLayout()
         
         layout.addLayout(layout_botoes_inferiores)
 
         layout_botoes_inferiores.addStretch()
-        layout_botoes_inferiores.addWidget(botao0)
+        layout_botoes_inferiores.addWidget(botao_sair)
 
         self.setLayout(layout)
 
@@ -53,6 +108,17 @@ class JanelaPrincipal(QWidget):
 
     def novo(self):
         print('Novo projeto criado com sucesso.')
+
+    def calcular(self):
+        print(self.input_frequencia.text())
+        print(self.input_polos.text())
+               
+        if self.input_polos.text().isnumeric():
+            input_polos = int(self.input_polos.text())
+            if input_polos == 2 or input_polos == 4 or input_polos == 8 or input_polos == 16:
+                self.par_de_polos.setText(
+                    'Par de Polos(Nº):'+str(input_polos/2))
+
 
     def confirma_saida(self):
         confirma = QMessageBox.question(self,
