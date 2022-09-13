@@ -50,17 +50,22 @@ class JanelaPrincipal(QWidget):
         self.par_de_polos = QLabel('Par de Polos(Nº): ')
         layout_input_column_0_tab2.addWidget(self.par_de_polos)
 
-        rps = QLabel('RPS:')
-        layout_input_column_0_tab2.addWidget(rps)
-        rpm = QLabel('RPM:')
-        layout_input_column_0_tab2.addWidget(rpm)
-        escoregamento = QLabel('Escoregamento(%):')
-        layout_input_column_0_tab2.addWidget(escoregamento)
-        input_escoregamento = QLineEdit(self)
-        input_escoregamento.setPlaceholderText('%')
-        layout_input_column_0_tab2.addWidget(input_escoregamento)
-        rpm_real = QLabel('RPM de Saida ~Real: ')
-        layout_input_column_0_tab2.addWidget(rpm_real)
+        self.rps = QLabel('RPS:')
+        layout_input_column_0_tab2.addWidget(self.rps)
+
+        self.rpm = QLabel('RPM:')
+        layout_input_column_0_tab2.addWidget(self.rpm)
+
+        self.escoregamento = QLabel('Escoregamento(%):')
+        layout_input_column_0_tab2.addWidget(self.escoregamento)
+        self.input_escoregamento = QLineEdit(self)
+        self.input_escoregamento.setPlaceholderText('0.0%')
+        self.input_escoregamento.textChanged.connect(self.calcular)
+        layout_input_column_0_tab2.addWidget(self.input_escoregamento)
+
+        self.rpm_real = QLabel('RPM de Saida ~Real: ')
+        layout_input_column_0_tab2.addWidget(self.rpm_real)
+
         layout_input_column_0_tab2.addStretch()
 
         layout_tab2.addLayout(layout_input_column_0_tab2)
@@ -68,12 +73,12 @@ class JanelaPrincipal(QWidget):
         # Imput column 1 tab2
         layout_input_column_1_tab2 = QVBoxLayout()
         
-        velocidade_do_motor = QLabel('Velocidade do motor:')
+        velocidade_do_motor = QLabel('teste:')
         layout_input_column_1_tab2.addWidget(velocidade_do_motor)
-        frequencia = QLabel('Frequencia(Hz):')
+        frequencia = QLabel('teste:')
         layout_input_column_1_tab2.addWidget(frequencia)
         input_frequencia = QLineEdit(self)
-        input_frequencia.setPlaceholderText('Hz')
+        input_frequencia.setPlaceholderText('teste')
         layout_input_column_1_tab2.addWidget(input_frequencia)
         layout_input_column_1_tab2.addStretch()
 
@@ -112,12 +117,45 @@ class JanelaPrincipal(QWidget):
     def calcular(self):
         print(self.input_frequencia.text())
         print(self.input_polos.text())
+        print(self.rps.text())
+
+        input_polos = 0
+        par_de_polos = 0
+        rpm = 0
+        escorregamento =0
+        rpm_real = 0
                
         if self.input_polos.text().isnumeric():
             input_polos = int(self.input_polos.text())
+            par_de_polos = input_polos/2
             if input_polos == 2 or input_polos == 4 or input_polos == 8 or input_polos == 16:
                 self.par_de_polos.setText(
-                    'Par de Polos(Nº):'+str(input_polos/2))
+                    'Par de Polos(Nº):'+str(par_de_polos))
+                print('calcula par de polos')
+
+        
+        try:
+            if isinstance(float(self.input_frequencia.text()),float) and par_de_polos:
+                frequencia = int(self.input_frequencia.text())
+                self.rps.setText('RPS:'+str(frequencia/par_de_polos))
+                rpm = (frequencia/par_de_polos)*60
+                self.rpm.setText('RPS:'+str(rpm))
+                print('calcula rpm')
+        except:
+            print('erro ao converter input_frequencia para float')
+
+        try:
+            if isinstance(float(self.input_escoregamento.text()),float):
+                    print('calcula escorregamento')
+                    escorregamento = float(self.input_escoregamento.text())
+                    rpm_real = rpm-(((rpm/100)*escorregamento))
+                    self.rpm_real.setText('RPM de Saida ~Real: '+str(rpm_real))
+                    print('calcula rpm_real')
+                    self.escoregamento.setText('Escoregamento(%): ')
+        except:
+            print('erro ao converter input_escorregamento para float')
+            self.escoregamento.setText('Erro nao usar virgual, usar ponto : 0.0')
+
 
 
     def confirma_saida(self):
