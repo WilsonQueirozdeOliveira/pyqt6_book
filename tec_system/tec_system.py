@@ -33,15 +33,15 @@ class JanelaPrincipal(QWidget):
         
         velocidade_do_motor = QLabel('Velocidade do motor:')
         layout_input_column_0_tab2.addWidget(velocidade_do_motor)
-        frequencia = QLabel('Frequencia(Hz):')
-        layout_input_column_0_tab2.addWidget(frequencia)
+        self.frequencia = QLabel('Frequencia(Hz):')
+        layout_input_column_0_tab2.addWidget(self.frequencia)
         self.input_frequencia = QLineEdit(self)
         self.input_frequencia.setPlaceholderText('Hz')
         self.input_frequencia.textChanged.connect(self.calcular)
         layout_input_column_0_tab2.addWidget(self.input_frequencia)
         
-        polos = QLabel('Polos(Nº):')
-        layout_input_column_0_tab2.addWidget(polos)
+        self.polos = QLabel('Polos(Nº):')
+        layout_input_column_0_tab2.addWidget(self.polos)
         self.input_polos = QLineEdit(self)
         self.input_polos.setPlaceholderText('Nº(2-4-8-16)')
         self.input_polos.textChanged.connect(self.calcular)
@@ -124,37 +124,43 @@ class JanelaPrincipal(QWidget):
         rpm = 0
         escorregamento =0
         rpm_real = 0
-               
-        if self.input_polos.text().isnumeric():
-            input_polos = int(self.input_polos.text())
-            par_de_polos = input_polos/2
-            if input_polos == 2 or input_polos == 4 or input_polos == 8 or input_polos == 16:
-                self.par_de_polos.setText(
-                    'Par de Polos(Nº):'+str(par_de_polos))
-                print('calcula par de polos')
-
         
+        try:    
+            if isinstance(float(self.input_polos.text()),float):
+                input_polos = int(self.input_polos.text())
+                par_de_polos = input_polos/2
+                if input_polos == 2 or input_polos == 4 or input_polos == 8 or input_polos == 16:
+                    self.par_de_polos.setText(
+                        'Par de Polos(Nº):'+str(par_de_polos))
+                    print('calcula par de polos')
+                    self.polos.setText('Polos(Nº):')
+        except:
+            print('erro ao converter input_polos para float')
+            self.polos.setText('Polos(Nº): Erro não usar virgual, usar ponto : 0.0')
+
         try:
             if isinstance(float(self.input_frequencia.text()),float) and par_de_polos:
                 frequencia = int(self.input_frequencia.text())
-                self.rps.setText('RPS:'+str(frequencia/par_de_polos))
+                self.rps.setText('RPS: '+str(frequencia/par_de_polos))
                 rpm = (frequencia/par_de_polos)*60
-                self.rpm.setText('RPS:'+str(rpm))
+                self.rpm.setText('RPM: '+str(rpm)+' Sem escorregamento.')
                 print('calcula rpm')
+                self.frequencia.setText('Frequencia(Hz):')
         except:
             print('erro ao converter input_frequencia para float')
+            self.frequencia.setText('Frequencia(Hz): Erro não usar virgual, usar ponto : 0.0')
 
         try:
             if isinstance(float(self.input_escoregamento.text()),float):
                     print('calcula escorregamento')
                     escorregamento = float(self.input_escoregamento.text())
                     rpm_real = rpm-(((rpm/100)*escorregamento))
-                    self.rpm_real.setText('RPM de Saida ~Real: '+str(rpm_real))
+                    self.rpm_real.setText('RPM de Saida ~Real: '+str(rpm_real)+' Com escorregamento.')
                     print('calcula rpm_real')
                     self.escoregamento.setText('Escoregamento(%): ')
         except:
             print('erro ao converter input_escorregamento para float')
-            self.escoregamento.setText('Erro nao usar virgual, usar ponto : 0.0')
+            self.escoregamento.setText('Escoregamento(%): Erro não usar virgual, usar ponto : 0.0')
 
 
 
