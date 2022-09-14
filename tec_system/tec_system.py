@@ -30,39 +30,58 @@ class JanelaPrincipal(QWidget):
 
         # Imput column 0 tab2
         layout_input_column_0_tab2 = QVBoxLayout()
-        
+        # Title
         velocidade_do_motor = QLabel('Velocidade do motor:')
         layout_input_column_0_tab2.addWidget(velocidade_do_motor)
+        
+        #frequency
+        layout_frequencia = QHBoxLayout()
         self.frequencia = QLabel('Frequencia(Hz):')
-        layout_input_column_0_tab2.addWidget(self.frequencia)
+        #layout_input_column_0_tab2.addWidget(self.frequencia)
+        layout_frequencia.addWidget(self.frequencia)
         self.input_frequencia = QLineEdit(self)
         self.input_frequencia.setPlaceholderText('Hz')
         self.input_frequencia.textChanged.connect(self.calcular)
-        layout_input_column_0_tab2.addWidget(self.input_frequencia)
+        #layout_input_column_0_tab2.addWidget(self.input_frequencia)
+        layout_frequencia.addWidget(self.input_frequencia)
+        layout_input_column_0_tab2.addLayout(layout_frequencia)
         
+        # Poles
+        layout_polos = QHBoxLayout()
         self.polos = QLabel('Polos(Nº):')
-        layout_input_column_0_tab2.addWidget(self.polos)
+        #layout_input_column_0_tab2.addWidget(self.polos)
+        layout_polos.addWidget(self.polos)
         self.input_polos = QLineEdit(self)
         self.input_polos.setPlaceholderText('Nº(2-4-8-16)')
         self.input_polos.textChanged.connect(self.calcular)
-        layout_input_column_0_tab2.addWidget(self.input_polos)
-        
+        #layout_input_column_0_tab2.addWidget(self.input_polos)
+        layout_polos.addWidget(self.input_polos)
+        layout_input_column_0_tab2.addLayout(layout_polos)
+
+        # Pear fo poles
         self.par_de_polos = QLabel('Par de Polos(Nº): ')
         layout_input_column_0_tab2.addWidget(self.par_de_polos)
-
+        
         self.rps = QLabel('RPS:')
         layout_input_column_0_tab2.addWidget(self.rps)
 
+        # RPM
         self.rpm = QLabel('RPM:')
         layout_input_column_0_tab2.addWidget(self.rpm)
 
+        #slip
+        layout_escoregamento = QHBoxLayout()
         self.escoregamento = QLabel('Escoregamento(%):')
-        layout_input_column_0_tab2.addWidget(self.escoregamento)
+        #layout_input_column_0_tab2.addWidget(self.escoregamento)
+        layout_escoregamento.addWidget(self.escoregamento)
         self.input_escoregamento = QLineEdit(self)
         self.input_escoregamento.setPlaceholderText('0.0%')
         self.input_escoregamento.textChanged.connect(self.calcular)
-        layout_input_column_0_tab2.addWidget(self.input_escoregamento)
+        #layout_input_column_0_tab2.addWidget(self.input_escoregamento)
+        layout_escoregamento.addWidget(self.input_escoregamento)
+        layout_input_column_0_tab2.addLayout(layout_escoregamento)
 
+        # RPM ~Real
         self.rpm_real = QLabel('RPM de Saida ~Real: ')
         layout_input_column_0_tab2.addWidget(self.rpm_real)
 
@@ -155,7 +174,7 @@ class JanelaPrincipal(QWidget):
                     print('calcula escorregamento')
                     escorregamento = float(self.input_escoregamento.text())
                     rpm_real = rpm-(((rpm/100)*escorregamento))
-                    self.rpm_real.setText('RPM de Saida ~Real: '+str(rpm_real)+' Com escorregamento.')
+                    self.rpm_real.setText('RPM de Saida ~Real: '+str(rpm_real))
                     print('calcula rpm_real')
                     self.escoregamento.setText('Escoregamento(%): ')
         except:
