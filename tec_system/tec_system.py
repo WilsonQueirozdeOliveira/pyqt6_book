@@ -10,7 +10,7 @@ class JanelaPrincipal(QWidget):
         super().__init__()
         self.setWindowTitle('Cadastro de Clientes')
         self.setWindowIcon(QIcon('icone.png'))
-        self.setGeometry(0,30,680,800)
+        self.setGeometry(0,30,680,690)
         self.Interface()
         
     def Interface(self):
@@ -84,6 +84,23 @@ class JanelaPrincipal(QWidget):
         # RPM ~Real
         self.rpm_real = QLabel('RPM de Saida ~Real: ')
         layout_input_column_0_tab2.addWidget(self.rpm_real)
+
+        # Reduction velocity
+        velocidade_da_reducao = QLabel('Velociadade da redução:')
+        layout_input_column_0_tab2.addWidget(velocidade_da_reducao)
+
+        # Reduction
+        layout_reducao = QHBoxLayout()
+        reducao = QLabel('Redução [1/X]: ')
+        layout_reducao.addWidget(reducao)
+        self.input_reducao = QLineEdit(self)
+        self.input_reducao.setPlaceholderText('X')
+        layout_reducao.addWidget(self.input_reducao)
+        layout_input_column_0_tab2.addLayout(layout_reducao)
+
+        # RPM after Reduction
+        rpm_reducao = QLabel('RPM após Redução: ')
+        layout_input_column_0_tab2.addWidget(rpm_reducao)
 
         # Functions
         '''
