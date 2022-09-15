@@ -8,8 +8,8 @@ from PyQt6.QtCore import Qt
 class JanelaPrincipal(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Cadastro de Clientes')
-        self.setWindowIcon(QIcon('icone.png'))
+        self.setWindowTitle('Automação de cálculos de Dimensionamento')
+        #self.setWindowIcon(QIcon('icone.png'))
         self.setGeometry(0,30,680,690)
         self.Interface()
         
@@ -31,7 +31,7 @@ class JanelaPrincipal(QWidget):
         # Imput column 0 tab2
         layout_input_column_0_tab2 = QVBoxLayout()
         # Title
-        velocidade_do_motor = QLabel('Velocidade do motor:')
+        velocidade_do_motor = QLabel('Velocidade do motor')
         layout_input_column_0_tab2.addWidget(velocidade_do_motor)
         
         #frequency
@@ -86,21 +86,45 @@ class JanelaPrincipal(QWidget):
         layout_input_column_0_tab2.addWidget(self.rpm_real)
 
         # Reduction velocity
-        velocidade_da_reducao = QLabel('Velociadade da redução:')
+        velocidade_da_reducao = QLabel('Velociadade da redução')
         layout_input_column_0_tab2.addWidget(velocidade_da_reducao)
 
         # Reduction
         layout_reducao = QHBoxLayout()
-        reducao = QLabel('Redução [1/X]: ')
-        layout_reducao.addWidget(reducao)
+        self.reducao = QLabel('Redução [1/X]: ')
+        layout_reducao.addWidget(self.reducao)
         self.input_reducao = QLineEdit(self)
         self.input_reducao.setPlaceholderText('X')
         layout_reducao.addWidget(self.input_reducao)
+        self.input_reducao.textChanged.connect(self.calcular)
         layout_input_column_0_tab2.addLayout(layout_reducao)
 
         # RPM after Reduction
-        rpm_reducao = QLabel('RPM após Redução: ')
-        layout_input_column_0_tab2.addWidget(rpm_reducao)
+        self.rpm_apos_reducao = QLabel('RPM após Redução: ')
+        layout_input_column_0_tab2.addWidget(self.rpm_apos_reducao)
+
+        # Drum velocity
+        velocidade_do_tambor = QLabel('Velociadade do Tambor')
+        layout_input_column_0_tab2.addWidget(velocidade_do_tambor)
+
+        # traction radios 
+        layout_raio_de_tracao = QHBoxLayout()
+        self.raio_do_tambor = QLabel('Raio do Tração:')
+        layout_raio_de_tracao.addWidget(self.raio_do_tambor)
+        self.input_raio = QLineEdit(self)
+        self.input_raio.setPlaceholderText('0.0 mm')
+        layout_raio_de_tracao.addWidget(self.input_raio)
+        self.input_raio.textChanged.connect(self.calcular)
+        layout_input_column_0_tab2.addLayout(layout_raio_de_tracao)
+
+        # Drum Perimeter
+        self.perimetro_do_tambor = QLabel('Perímetro do Tambor: ')
+        layout_input_column_0_tab2.addWidget(self.perimetro_do_tambor)
+
+
+
+
+
 
         # Functions
         '''
@@ -174,7 +198,9 @@ class JanelaPrincipal(QWidget):
         rpm = 0
         escorregamento =0
         rpm_real = 0
+        rpm_apos_reducao = 0
         
+        # Calculate pair of poles
         if self.input_polos.text():
             try:    
                 if isinstance(float(self.input_polos.text()),float):
@@ -189,6 +215,7 @@ class JanelaPrincipal(QWidget):
                 print('erro ao converter input_polos para float')
                 self.polos.setText('Polos [Nº]: Erro. Erro entrada float : 0.0')
 
+        # Calculate RPM
         if self.input_frequencia.text():
             try:
                 if isinstance(float(self.input_frequencia.text()),float) and par_de_polos:
@@ -202,6 +229,7 @@ class JanelaPrincipal(QWidget):
                 print('erro ao converter input_frequencia para float')
                 self.frequencia.setText('Frequência[Hz]: Erro. entrada float : 0.0')
 
+        # Calculate ~Real RPM
         if self.input_escoregamento.text():
             try:
                 if isinstance(float(self.input_escoregamento.text()),float):
@@ -215,7 +243,19 @@ class JanelaPrincipal(QWidget):
                 print('erro ao converter input_escorregamento para float')
                 self.escoregamento.setText('Escoregamento [%]: Erro. entrada float : 0.0')
 
+        # Calculate RPM after Reduction
+        if self.input_reducao.text():
+            try:
+                if isinstance(float(self.input_reducao.text()),float):
+                        reducao = float(self.input_reducao.text())
+                        rpm_apos_reducao = rpm_real/reducao
+                        self.rpm_apos_reducao.setText('RPM após Redução: '+str(rpm_apos_reducao)+' [RPM]')
+                        print('calcula rpm_apos_reducao')
+            except:
+                print('erro ao converter input_reducao para float')
+                self.reducao.setText('RPM após Redução: Erro. entrada float : 0.0')
 
+        # Calculate Drum Perimeter
 
     def confirma_saida(self):
         confirma = QMessageBox.question(self,
