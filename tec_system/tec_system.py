@@ -1,6 +1,8 @@
 from ast import arguments
+from cmath import pi
 from re import S
 import sys 
+import math
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 from PyQt6.QtCore import Qt
@@ -20,7 +22,7 @@ class JanelaPrincipal(QWidget):
 
         # tab1
         self.tab1 = QWidget()
-        self.tabs.addTab(self.tab1, 'Configurar máquina')
+        #self.tabs.addTab(self.tab1, 'Configurar máquina')
         layout_tab1 = QHBoxLayout()
 
         # tab2
@@ -32,6 +34,7 @@ class JanelaPrincipal(QWidget):
         layout_input_column_0_tab2 = QVBoxLayout()
         # Title
         velocidade_do_motor = QLabel('Velocidade do motor')
+        velocidade_do_motor.setStyleSheet("QLabel { color : blue; }")
         layout_input_column_0_tab2.addWidget(velocidade_do_motor)
         
         #frequency
@@ -87,6 +90,7 @@ class JanelaPrincipal(QWidget):
 
         # Reduction velocity
         velocidade_da_reducao = QLabel('Velociadade da redução')
+        velocidade_da_reducao.setStyleSheet("QLabel { color : blue; }")
         layout_input_column_0_tab2.addWidget(velocidade_da_reducao)
 
         # Reduction
@@ -103,25 +107,31 @@ class JanelaPrincipal(QWidget):
         self.rpm_apos_reducao = QLabel('RPM após Redução: ')
         layout_input_column_0_tab2.addWidget(self.rpm_apos_reducao)
 
-        # Drum velocity
-        velocidade_do_tambor = QLabel('Velociadade do Tambor')
-        layout_input_column_0_tab2.addWidget(velocidade_do_tambor)
+        # Cylinder velocity
+        velocidade_do_cilindro = QLabel('Velociadade do Cilindro')
+        #velocidade_do_cilindro.setStyleSheet("QLabel { background-color : red; color : blue; }")
+        velocidade_do_cilindro.setStyleSheet("QLabel { color : blue; }")
+        layout_input_column_0_tab2.addWidget(velocidade_do_cilindro)
 
-        # traction radios 
-        layout_raio_de_tracao = QHBoxLayout()
-        self.raio_do_tambor = QLabel('Raio do Tração:')
-        layout_raio_de_tracao.addWidget(self.raio_do_tambor)
-        self.input_raio = QLineEdit(self)
-        self.input_raio.setPlaceholderText('0.0 mm')
-        layout_raio_de_tracao.addWidget(self.input_raio)
-        self.input_raio.textChanged.connect(self.calcular)
-        layout_input_column_0_tab2.addLayout(layout_raio_de_tracao)
+        # traction diameter 
+        layout_diametro_de_tracao = QHBoxLayout()
+        self.diametro_do_tambor = QLabel('Diâmetro do Cilindro de Tração [mm]:')
+        layout_diametro_de_tracao.addWidget(self.diametro_do_tambor)
+        self.input_diametro_de_tracao = QLineEdit(self)
+        self.input_diametro_de_tracao.setPlaceholderText('0.0 mm')
+        layout_diametro_de_tracao.addWidget(self.input_diametro_de_tracao)
+        self.input_diametro_de_tracao.textChanged.connect(self.calcular)
+        layout_input_column_0_tab2.addLayout(layout_diametro_de_tracao)
 
-        # Drum Perimeter
-        self.perimetro_do_tambor = QLabel('Perímetro do Tambor: ')
-        layout_input_column_0_tab2.addWidget(self.perimetro_do_tambor)
+        # Cylinder Perimeter
+        self.perimetro_do_cilindro = QLabel(
+            'Perímetro do Cilindro de Tração [mm]: ')
+        layout_input_column_0_tab2.addWidget(self.perimetro_do_cilindro)
 
-
+        # Cylinder linear Velocity
+        self.velocidade_linear = QLabel(
+            'Velocidade Linear [m/min]: ')
+        layout_input_column_0_tab2.addWidget(self.velocidade_linear)
 
 
 
@@ -161,14 +171,20 @@ class JanelaPrincipal(QWidget):
         
         # tab3
         self.tab3 = QWidget()
-        self.tabs.addTab(self.tab3, 'sobre')
+        self.tabs.addTab(self.tab3, 'Calculos de produtividade')
         layout_tab3 = QHBoxLayout()
+
+        # tab4
+        self.tab4 = QWidget()
+        self.tabs.addTab(self.tab4, 'sobre')
+        layout_tab4 = QHBoxLayout()
 
         layout.addWidget(self.tabs)
 
         self.tab1.setLayout(layout_tab1)
         self.tab2.setLayout(layout_tab2)
         self.tab3.setLayout(layout_tab3)
+        self.tab3.setLayout(layout_tab4)
 
         botao_sair = QPushButton('SAIR', self)
         #botao0.move(275,260)
@@ -199,6 +215,7 @@ class JanelaPrincipal(QWidget):
         escorregamento =0
         rpm_real = 0
         rpm_apos_reducao = 0
+        perimetro_do_cilindro = 0
         
         # Calculate pair of poles
         if self.input_polos.text():
@@ -251,11 +268,42 @@ class JanelaPrincipal(QWidget):
                         rpm_apos_reducao = rpm_real/reducao
                         self.rpm_apos_reducao.setText('RPM após Redução: '+str(rpm_apos_reducao)+' [RPM]')
                         print('calcula rpm_apos_reducao')
+                        self.reducao.setText(
+                            'Redução [1/X]: ')
             except:
                 print('erro ao converter input_reducao para float')
-                self.reducao.setText('RPM após Redução: Erro. entrada float : 0.0')
+                self.reducao.setText(
+                    'Redução [1/X]: Erro. entrada float : 0.0')
 
-        # Calculate Drum Perimeter
+        # Calculate Cylinder Perimeter
+        if self.input_diametro_de_tracao.text():
+            try:
+                if isinstance(float(self.input_diametro_de_tracao.text()),float):
+                        raio_de_tracao = float(self.input_diametro_de_tracao.text())
+                        perimetro_do_cilindro = raio_de_tracao*pi
+                        self.perimetro_do_cilindro.setText(
+                            'Perímetro do Cilindro de Tração [mm]: '
+                            +str(perimetro_do_cilindro)+' [mm]'
+                            )
+                        print('calcula perimetro_do_cilindro')
+                        self.diametro_do_tambor.setText(
+                            'Diâmetro do Cilindro de Tração [mm]: ')
+            except:
+                print(
+                    'erro ao converter input_raio_de_tracao para float')
+                self.diametro_do_tambor.setText(
+                    'Diâmetro do Cilindro de Tração [mm]: Erro. entrada float : 0.0')
+        
+        # Cylinder linear Velocity
+        if perimetro_do_cilindro and rpm_apos_reducao:
+            velodidade_linear_m_min = (perimetro_do_cilindro*rpm_apos_reducao)/1000
+            self.velocidade_linear.setText(
+                'Velocidade linear [m/min]: '
+                +str(velodidade_linear_m_min)+' [m/min]'
+                )
+            print('calcula Cylinder linear Velocity')
+
+
 
     def confirma_saida(self):
         confirma = QMessageBox.question(self,
