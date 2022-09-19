@@ -3,7 +3,20 @@
 - qt6 book: Interfaces Gráficas com Python + PyQt6
 - https://sqlitebrowser.org/
 
-## Dependecies to env (tec_py39)
+## miniconda not needed
+## python 3.10.7
+- pyinstaller-5.4.1 (bootloader compilation)
+- w64devkit-1.16.1 #gcc compiler
+- cd to the bootloader folder
+- python.exe ./waf distclean all
+- cd to root Pyinstaller directory you've created above Step 3
+- Run this command: python.exe setup.py install
+- optional#python.exe ./waf all --target-arch=64bit
+- optional#python.exe ./waf all
+
+
+
+## Dependecies to env (tec_py39) miniconda
 - conda create -n tec_py39 python=3.9 anaconda
 - for python gtk wsl : sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-3.0
 - conda install -c conda-forge jupyterlab
@@ -15,22 +28,17 @@
 - conda install -c conda-forge opencv
 - pip install auto-py-to-exe
 
-#### pyinstaller-5.4.1
-- cd to the bootloader folder
-- python.exe ./waf all
-- python.exe ./waf distclean all
-- cd to root Pyinstaller directory you've created above Step 3
-- Run this command: python.exe setup.py install
 
 
-## comands to env (tec_py39)
+
+## comands to env (tec_py39) miniconda
 - jupyter lab
 - python tec_system.py
 - auto-py-to-exe
 - pyinstaller tec_system_0.1_.py -F --noconsole
 
 
-<p>Dependencies to (tec) python 3.6<br/>
+<p>miniconda Dependencies to (tec) python 3.6<br/>
 miniconda<br/>
 conda create --name tec python=3.6.9 ipykernel<br/>
 
