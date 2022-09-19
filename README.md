@@ -15,11 +15,19 @@
 - conda install -c conda-forge opencv
 - pip install auto-py-to-exe
 
+#### pyinstaller-5.4.1
+- cd to the bootloader folder
+- python.exe ./waf all
+- python.exe ./waf distclean all
+- cd to root Pyinstaller directory you've created above Step 3
+- Run this command: python.exe setup.py install
+
 
 ## comands to env (tec_py39)
 - jupyter lab
 - python tec_system.py
 - auto-py-to-exe
+- pyinstaller tec_system_0.1_.py -F --noconsole
 
 
 <p>Dependencies to (tec) python 3.6<br/>
