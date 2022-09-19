@@ -33,7 +33,7 @@ class JanelaPrincipal(QWidget):
         # Imput column 0 tab2
         layout_input_column_0_tab2 = QVBoxLayout()
         # Title
-        velocidade_do_motor = QLabel('Velocidade do motor')
+        velocidade_do_motor = QLabel('Velocidade do Motor')
         velocidade_do_motor.setStyleSheet("QLabel { color : blue; }")
         layout_input_column_0_tab2.addWidget(velocidade_do_motor)
         
@@ -157,8 +157,11 @@ class JanelaPrincipal(QWidget):
         # Imput column 1 tab2
         layout_input_column_1_tab2 = QVBoxLayout()
         
-        velocidade_do_motor = QLabel('coluna2:')
-        layout_input_column_1_tab2.addWidget(velocidade_do_motor)
+        # Engine Torque
+        torque_do_motor = QLabel('Torque do Motor')
+        torque_do_motor.setStyleSheet("QLabel { color : blue; }")
+        layout_input_column_1_tab2.addWidget(torque_do_motor)
+
         frequencia = QLabel('coluna2:')
         layout_input_column_1_tab2.addWidget(frequencia)
         input_frequencia = QLineEdit(self)
@@ -236,7 +239,7 @@ class JanelaPrincipal(QWidget):
         if self.input_frequencia.text():
             try:
                 if isinstance(float(self.input_frequencia.text()),float) and par_de_polos:
-                    frequencia = int(self.input_frequencia.text())
+                    frequencia = float(self.input_frequencia.text())
                     self.rps.setText('RPS: '+str(frequencia/par_de_polos))
                     rpm = (frequencia/par_de_polos)*60
                     self.rpm.setText('RPM: '+str(rpm)+' Sem escorregamento.')
