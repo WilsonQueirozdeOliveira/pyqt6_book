@@ -12,7 +12,7 @@ class JanelaPrincipal(QWidget):
         super().__init__()
         self.setWindowTitle('Automação de cálculos de Dimensionamento')
         #self.setWindowIcon(QIcon('icone.png'))
-        self.setGeometry(0,30,680,690)
+        self.setGeometry(0,30,850,690)
         self.Interface()
         
     def Interface(self):
@@ -47,6 +47,7 @@ class JanelaPrincipal(QWidget):
         self.input_frequencia.textChanged.connect(self.calcular)
         #layout_input_column_0_tab2.addWidget(self.input_frequencia)
         layout_frequencia.addWidget(self.input_frequencia)
+        layout_frequencia.addStretch()
         layout_input_column_0_tab2.addLayout(layout_frequencia)
         
         # Poles
@@ -55,10 +56,11 @@ class JanelaPrincipal(QWidget):
         #layout_input_column_0_tab2.addWidget(self.polos)
         layout_polos.addWidget(self.polos)
         self.input_polos = QLineEdit(self)
-        self.input_polos.setPlaceholderText('Nº(2-4-8-16)')
+        self.input_polos.setPlaceholderText('Nº(2-4-6-8-16)')
         self.input_polos.textChanged.connect(self.calcular)
         #layout_input_column_0_tab2.addWidget(self.input_polos)
         layout_polos.addWidget(self.input_polos)
+        layout_polos.addStretch()
         layout_input_column_0_tab2.addLayout(layout_polos)
 
         # Pear fo poles
@@ -82,6 +84,7 @@ class JanelaPrincipal(QWidget):
         self.input_escoregamento.textChanged.connect(self.calcular)
         #layout_input_column_0_tab2.addWidget(self.input_escoregamento)
         layout_escoregamento.addWidget(self.input_escoregamento)
+        layout_escoregamento.addStretch()
         layout_input_column_0_tab2.addLayout(layout_escoregamento)
 
         # RPM ~Real
@@ -101,6 +104,7 @@ class JanelaPrincipal(QWidget):
         self.input_reducao.setPlaceholderText('X')
         layout_reducao.addWidget(self.input_reducao)
         self.input_reducao.textChanged.connect(self.calcular)
+        layout_reducao.addStretch()
         layout_input_column_0_tab2.addLayout(layout_reducao)
 
         # RPM after Reduction
@@ -115,12 +119,13 @@ class JanelaPrincipal(QWidget):
 
         # traction diameter 
         layout_diametro_de_tracao = QHBoxLayout()
-        self.diametro_do_tambor = QLabel('Diâmetro do Cilindro de Tração [mm]:')
-        layout_diametro_de_tracao.addWidget(self.diametro_do_tambor)
+        self.diametro_do_cilindro = QLabel('Diâmetro do Cilindro de Tração [mm]:')
+        layout_diametro_de_tracao.addWidget(self.diametro_do_cilindro)
         self.input_diametro_de_tracao = QLineEdit(self)
         self.input_diametro_de_tracao.setPlaceholderText('0.0 mm')
         layout_diametro_de_tracao.addWidget(self.input_diametro_de_tracao)
         self.input_diametro_de_tracao.textChanged.connect(self.calcular)
+        layout_diametro_de_tracao.addStretch()
         layout_input_column_0_tab2.addLayout(layout_diametro_de_tracao)
 
         # Cylinder Perimeter
@@ -128,10 +133,10 @@ class JanelaPrincipal(QWidget):
             'Perímetro do Cilindro de Tração [mm]: ')
         layout_input_column_0_tab2.addWidget(self.perimetro_do_cilindro)
 
-        # Cylinder linear Velocity
-        self.velocidade_linear = QLabel(
-            'Velocidade Linear [m/min]: ')
-        layout_input_column_0_tab2.addWidget(self.velocidade_linear)
+        # Cylinder tangent Velocity
+        self.velocidade_tangente = QLabel(
+            'Velocidade Tangente [m/min]: ')
+        layout_input_column_0_tab2.addWidget(self.velocidade_tangente)
 
 
 
@@ -149,6 +154,7 @@ class JanelaPrincipal(QWidget):
         funcao_4 = QLabel('RPM ~Real = RPM - Escoregamento [%]')
         layout_input_column_0_tab2.addWidget(funcao_4)
         '''
+        # end column 0
 
         layout_input_column_0_tab2.addStretch()
 
@@ -162,11 +168,106 @@ class JanelaPrincipal(QWidget):
         torque_do_motor.setStyleSheet("QLabel { color : blue; }")
         layout_input_column_1_tab2.addWidget(torque_do_motor)
 
-        frequencia = QLabel('coluna2:')
-        layout_input_column_1_tab2.addWidget(frequencia)
-        input_frequencia = QLineEdit(self)
-        input_frequencia.setPlaceholderText('coluna2')
-        layout_input_column_1_tab2.addWidget(input_frequencia)
+        # Motor voltage
+        layout_tensao_do_motor = QHBoxLayout()
+        tensao_do_motor = QLabel('Tensão do motor [V]:')
+        layout_tensao_do_motor.addWidget(tensao_do_motor)
+        self.input_tensao_do_motor = QLineEdit(self)
+        self.input_tensao_do_motor.setPlaceholderText('0.0 Volts')
+        layout_tensao_do_motor.addWidget(self.input_tensao_do_motor)
+        self.input_tensao_do_motor.textChanged.connect(self.calcular)
+        layout_tensao_do_motor.addStretch()
+        layout_input_column_1_tab2.addLayout(layout_tensao_do_motor)
+
+        # Potence factor (fator de potência = FP = COS@*n)
+        layout_FP = QHBoxLayout()
+        FP = QLabel('Fator de potência [FP]:')
+        layout_FP.addWidget(FP)
+        self.input_FP = QLineEdit(self)
+        self.input_FP.setPlaceholderText('0.0 FP')
+        layout_FP.addWidget(self.input_FP)
+        self.input_FP.textChanged.connect(self.calcular)
+        layout_FP.addStretch()
+        layout_input_column_1_tab2.addLayout(layout_FP)
+
+        # n = rendimento
+        layout_redimento = QHBoxLayout()
+        rendimento = QLabel('Rendimento [n]:')
+        layout_redimento.addWidget(rendimento)
+        self.input_rendimento = QLineEdit(self)
+        self.input_rendimento.setPlaceholderText('0.0 n')
+        layout_redimento.addWidget(self.input_rendimento)
+        self.input_rendimento.textChanged.connect(self.calcular)
+        layout_redimento.addStretch()
+        layout_input_column_1_tab2.addLayout(layout_redimento)
+
+       
+
+        # Corrente nominal 
+        layout_corrente = QHBoxLayout()
+        corrente = QLabel('Corrente [A]:')
+        layout_corrente.addWidget(corrente)
+        self.input_corrente = QLineEdit(self)
+        self.input_corrente.setPlaceholderText('0.0 A')
+        layout_corrente.addWidget(self.input_corrente)
+        self.input_corrente.textChanged.connect(self.calcular)
+        layout_corrente.addStretch()
+        layout_input_column_1_tab2.addLayout(layout_corrente)
+
+        # FS = fartor de serviço
+        layout_FS = QHBoxLayout()
+        FS = QLabel('Fator de serviço [FS]:')
+        layout_FS.addWidget(FS)
+        self.input_FS = QLineEdit(self)
+        self.input_FS.setPlaceholderText('0.0 FS')
+        layout_FS.addWidget(self.input_FS)
+        self.input_FS.textChanged.connect(self.calcular)
+        layout_FS.addStretch()
+        layout_input_column_1_tab2.addLayout(layout_FS)
+
+        # Potência cv
+        self.potencia_cv = QLabel('Potência [CV]: ')
+        layout_input_column_1_tab2.addWidget(self.potencia_cv)
+
+        # Pontência w
+        self.potencia_w = QLabel('Potência [W]: ')
+        layout_input_column_1_tab2.addWidget(self.potencia_w)
+
+        # gravidade 9.80665 m/s**2
+
+        # conjugado nominal [kgfm]
+        self.conjugado_kgmf = QLabel('Conjugado [kgmf]: ')
+        layout_input_column_1_tab2.addWidget(self.conjugado_kgmf)
+
+        # conjugado nominal [Nm]
+        self.conjugado_nm = QLabel('Conjugado [Nm]: ')
+        layout_input_column_1_tab2.addWidget(self.conjugado_nm)
+
+        # Rendimento do redutor [%]
+        layout_rendimento_redutor = QHBoxLayout()
+        FS = QLabel('Rendimento do redutor [%]:')
+        layout_rendimento_redutor.addWidget(FS)
+        self.input_rendimento_redutor = QLineEdit(self)
+        self.input_rendimento_redutor.setPlaceholderText('0.0 [%]')
+        layout_rendimento_redutor.addWidget(self.input_rendimento_redutor)
+        self.input_rendimento_redutor.textChanged.connect(self.calcular)
+        layout_rendimento_redutor.addStretch()
+        layout_input_column_1_tab2.addLayout(layout_rendimento_redutor)
+
+        # Torque após redutor [Nm]
+        self.torque_redutor = QLabel('Torque após redutor [Nm]: ')
+        layout_input_column_1_tab2.addWidget(self.torque_redutor)
+
+        # Força tangente ao cilindro [N]
+        self.forca_tagente = QLabel('Força tangente ao cilindro [N]: ')
+        layout_input_column_1_tab2.addWidget(self.forca_tagente)
+
+        # Carga máxima tangente cilindro [kg]
+        self.carga_tagente = QLabel('Carga máxima tangente cilindro [kg]: ')
+        layout_input_column_1_tab2.addWidget(self.carga_tagente)
+
+        # and column 1
+
         layout_input_column_1_tab2.addStretch()
 
         layout_tab2.addLayout(layout_input_column_1_tab2)
@@ -208,9 +309,9 @@ class JanelaPrincipal(QWidget):
         print('Novo projeto criado com sucesso.')
 
     def calcular(self):
-        print(self.input_frequencia.text())
-        print(self.input_polos.text())
-        print(self.rps.text())
+        #print(self.input_frequencia.text())
+        #print(self.input_polos.text())
+        #print(self.rps.text())
 
         input_polos = 0
         par_de_polos = 0
@@ -219,6 +320,23 @@ class JanelaPrincipal(QWidget):
         rpm_real = 0
         rpm_apos_reducao = 0
         perimetro_do_cilindro = 0
+        tensao_do_motor = 0
+        FP = 0
+        rendimento = 0
+        corrente = 0
+        FS = 0
+        potencia_w = 0
+        conjugado_kgmf = 0
+        conjugado_nm = 0
+        torque_redutor = 0
+        reducao = 0
+        rendimento_redutor = 0
+        forca_tangente = 0
+        carga_tangente = 0
+        diametro_de_tracao = 0
+        gravidade = 9.80665
+        carga_tangente = 0
+
         
         # Calculate pair of poles
         if self.input_polos.text():
@@ -232,7 +350,7 @@ class JanelaPrincipal(QWidget):
                         print('calcula par de polos')
                         self.polos.setText('Polos [Nº]:')
             except:
-                print('erro ao converter input_polos para float')
+                print('erro ao converter input polos para float')
                 self.polos.setText('Polos [Nº]: Erro. Erro entrada float : 0.0')
 
         # Calculate RPM
@@ -260,7 +378,7 @@ class JanelaPrincipal(QWidget):
                         print('calcula rpm_real')
                         self.escoregamento.setText('Escoregamento [%]: ')
             except:
-                print('erro ao converter input_escorregamento para float')
+                print('erro ao converter input escorregamento para float')
                 self.escoregamento.setText('Escoregamento [%]: Erro. entrada float : 0.0')
 
         # Calculate RPM after Reduction
@@ -270,11 +388,11 @@ class JanelaPrincipal(QWidget):
                         reducao = float(self.input_reducao.text())
                         rpm_apos_reducao = rpm_real/reducao
                         self.rpm_apos_reducao.setText('RPM após Redução: '+str(rpm_apos_reducao)+' [RPM]')
-                        print('calcula rpm_apos_reducao')
+                        print('calcula rpm apos reducao')
                         self.reducao.setText(
                             'Redução [1/X]: ')
             except:
-                print('erro ao converter input_reducao para float')
+                print('erro ao converter input reducao para float')
                 self.reducao.setText(
                     'Redução [1/X]: Erro. entrada float : 0.0')
 
@@ -282,30 +400,127 @@ class JanelaPrincipal(QWidget):
         if self.input_diametro_de_tracao.text():
             try:
                 if isinstance(float(self.input_diametro_de_tracao.text()),float):
-                        raio_de_tracao = float(self.input_diametro_de_tracao.text())
-                        perimetro_do_cilindro = raio_de_tracao*pi
+                        diametro_de_tracao = float(self.input_diametro_de_tracao.text())
+                        perimetro_do_cilindro = diametro_de_tracao*pi
                         self.perimetro_do_cilindro.setText(
                             'Perímetro do Cilindro de Tração [mm]: '
                             +str(perimetro_do_cilindro)+' [mm]'
                             )
-                        print('calcula perimetro_do_cilindro')
-                        self.diametro_do_tambor.setText(
+                        print('calcula perimetro do cilindro')
+                        self.diametro_do_cilindro.setText(
                             'Diâmetro do Cilindro de Tração [mm]: ')
             except:
                 print(
-                    'erro ao converter input_raio_de_tracao para float')
-                self.diametro_do_tambor.setText(
+                    'erro ao converter input_diametro_de_tracao para float')
+                self.diametro_do_cilindro.setText(
                     'Diâmetro do Cilindro de Tração [mm]: Erro. entrada float : 0.0')
         
-        # Cylinder linear Velocity
+        # Cylinder tangent Velocity
         if perimetro_do_cilindro and rpm_apos_reducao:
-            velodidade_linear_m_min = (perimetro_do_cilindro*rpm_apos_reducao)/1000
-            self.velocidade_linear.setText(
-                'Velocidade linear [m/min]: '
-                +str(velodidade_linear_m_min)+' [m/min]'
+            velodidade_tangente_m_min = (perimetro_do_cilindro*rpm_apos_reducao)/1000
+            self.velocidade_tangente.setText(
+                'Velocidade Tangente [m/min]: '
+                +str(velodidade_tangente_m_min)+' [m/min]'
                 )
-            print('calcula Cylinder linear Velocity')
+            print('calcula velocidade linear do cilindro')
 
+       
+        # Pontência = (V*raiz3*FP*rendimento)*(( corrente A )*FS)
+
+        # Tensão do motor        
+        if self.input_tensao_do_motor.text():
+            try:
+                if isinstance(float(self.input_tensao_do_motor.text()),float):
+                        tensao_do_motor = float(self.input_tensao_do_motor.text())
+                        print('input tensão do motor')                       
+            except:
+                print('erro input tensão do motor')
+
+        # FP
+        if self.input_FP.text():
+            try:
+                if isinstance(float(self.input_FP.text()),float):
+                        FP = float(self.input_FP.text())
+                        print('input FP')                       
+            except:
+                print('erro input FP')
+
+        # rendimento
+        if self.input_rendimento.text():
+            try:
+                if isinstance(float(self.input_rendimento.text()),float):
+                        rendimento = float(self.input_rendimento.text())
+                        print('input rendimento do motor')                       
+            except:
+                print('erro input rendimento do motor')
+
+        # Corrente A
+        if self.input_corrente.text():
+            try:
+                if isinstance(float(self.input_corrente.text()),float):
+                        corrente = float(self.input_corrente.text())
+                        print('input corrente do motor')                       
+            except:
+                print('erro input corrente do motor')
+
+        # FS
+        if self.input_FS.text():
+            try:
+                if isinstance(float(self.input_FS.text()),float):
+                        FS = float(self.input_FS.text())
+                        print('input FS do motor')                       
+            except:
+                print('erro input FS do motor')
+        
+
+        # calcula Potência
+        #Pontência_w = (V*raiz3*FP*rendimento)*(( corrente A )*FS)
+        if tensao_do_motor and FP and rendimento and corrente and FS:
+            potencia_w = (tensao_do_motor*(math.sqrt(3))*FP*rendimento)*corrente
+            self.potencia_w.setText('Potência [W]: '+str(potencia_w)+ ' [w]')
+            #Pontência_cv = Pontência_w / (735,499)
+            self.potencia_cv.setText('Potência [CV]: '+str(potencia_w/735.499)+ ' [CV]')
+
+        # conjugado kgfm = potencia_w / rpm_motor ~real
+        if potencia_w and rpm_real:
+            conjugado_kgmf = potencia_w/rpm_real
+            self.conjugado_kgmf.setText('Conjugado [kgmf]: '+str(conjugado_kgmf)+' [kgfm]')
+
+        # conjugado nominal [Nm] = potencia_w/( rpm_real*(2*pi)/60)
+        if potencia_w and rpm_real:
+            conjugado_nm = potencia_w/(rpm_real*(2.0*math.pi)/60.0)
+            self.conjugado_nm.setText('Conjugado [Nm]: '+str(conjugado_nm)+'[Nm]')
+
+        # Rendimento do redutor [%]
+        if self.input_rendimento_redutor.text():
+            try:
+                if isinstance(float(self.input_rendimento_redutor.text()),float):
+                        rendimento_redutor = float(self.input_rendimento_redutor.text())
+                        print('input rendimento_redutor do motor')                       
+            except:
+                print('erro input rendimento_redutor do motor')
+
+        # Torque após redutor [Nm] = ((conjugado_nm*reducao)/100)*rendimento
+        if conjugado_nm and reducao and rendimento_redutor:
+            torque_redutor = ((conjugado_nm*reducao)/100)*rendimento_redutor
+            self.torque_redutor.setText(
+                'Torque após redutor [Nm]: '+str(torque_redutor)+'[Nm]')
+
+        # Força tangente ao cilindro [N] = torque_reduto / ((diametrodo_de_tracao/2)mm)metros
+        if torque_redutor and diametro_de_tracao:
+            forca_tangente = torque_redutor / ((diametro_de_tracao/2.0)/1000)
+            self.forca_tagente.setText(
+                'Força tangente ao cilindro [N]: '+str(forca_tangente)+'[Nm]')
+
+        # Carga máxima tangente cilindro [kg] = forca_tangente / gravidade
+        if forca_tangente and gravidade:
+            carga_tangente = forca_tangente / gravidade
+            self.carga_tagente.setText(
+                'Carga máxima tangente cilindro [kg]: '
+                +str(carga_tangente)+'[kg]')
+
+        # Fim calcular
+        
 
 
     def confirma_saida(self):
