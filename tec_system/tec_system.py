@@ -23,81 +23,129 @@ class JanelaPrincipal(QWidget):
 
         self.tabs = QTabWidget()
 
-        # tab1
-        self.tab1 = QWidget()
-        #self.tabs.addTab(self.tab1, 'Configurar máquina')
-        layout_tab1 = QHBoxLayout()
+        # tab_configurar_maquina
+        self.tab_configurar_maquina = QWidget()
+        self.tabs.addTab(self.tab_configurar_maquina, 'Configurar máquina')
+        layout_tab_configurar_maquina = QVBoxLayout()
 
-        # tab2
-        self.tab2 = QWidget()
-        self.tabs.addTab(self.tab2, 'Cálculos de transporte')
-        layout_tab2 = QHBoxLayout()
+        self.tab_configura_máquinas = QTabWidget()
 
-        # Imput column 0 tab2
-        layout_input_column_0_tab2 = QVBoxLayout()
+        #tab ultraline horizontal
+        self.tab_ultraline_horizontal = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_horizontal, 'Ultraline Horizontal')
+        layout_tab_ultraline_horizontal = QVBoxLayout()
+
+        self.tab_ultraline_horizontal.setLayout(layout_tab_ultraline_horizontal)
+
+        #tab ultraline inclinada
+        self.tab_ultraline_inclinada = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_inclinada, 'Ultraline Inclinada')
+        layout_tab_ultraline_inclinada = QVBoxLayout()
+
+        self.tab_ultraline_inclinada.setLayout(layout_tab_ultraline_inclinada)
+
+        #tab ultraline horizontal para inclinada
+        self.tab_ultraline_horizontal_para_inclinada = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_horizontal_para_inclinada, 'Ultraline horizontal para Inclinada')
+        layout_tab_ultraline_horizontal_para_inclinada = QVBoxLayout()
+
+        self.tab_ultraline_horizontal_para_inclinada.setLayout(layout_tab_ultraline_horizontal_para_inclinada)
+
+        #tab ultraline nose over
+        self.tab_ultraline_nose_over = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_nose_over, 'Ultraline Nose Over')
+        layout_tab_ultraline_nose_over = QVBoxLayout()
+
+        self.tab_ultraline_nose_over.setLayout(layout_tab_ultraline_nose_over)
+
+        #tab ultraline Z
+        self.tab_ultraline_z = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_z, 'Ultraline "Z"')
+        layout_tab_ultraline_z = QVBoxLayout()
+
+        self.tab_ultraline_z.setLayout(layout_tab_ultraline_z)
+
+        #tab Premiere Horizontal
+        self.tab_premiere_horizontal = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_premiere_horizontal, 'Premiere Horizontal')
+        layout_tab_premiere_horizontal = QVBoxLayout()
+
+        self.tab_premiere_horizontal.setLayout(layout_tab_premiere_horizontal)
+
+
+        # Fim layout tab configura máquinas
+        layout_tab_configurar_maquina.addWidget(self.tab_configura_máquinas)
+
+        # tab_calculos_de_transporte
+        self.tab_calculos_de_transporte = QWidget()
+        self.tabs.addTab(self.tab_calculos_de_transporte, 'Cálculos de transporte')
+        layout_tab_calculos_de_transporte = QHBoxLayout()
+
+        # Imput column 0 tab_calculos_de_transporte
+        layout_column_0_tab_calculos_de_transporte = QVBoxLayout()
         # Title
         velocidade_do_motor = QLabel('Velocidade do Motor')
         velocidade_do_motor.setStyleSheet("QLabel { color : blue; }")
-        layout_input_column_0_tab2.addWidget(velocidade_do_motor)
+        layout_column_0_tab_calculos_de_transporte.addWidget(velocidade_do_motor)
         
         #frequency
         layout_frequencia = QHBoxLayout()
         self.frequencia = QLabel('Frequência [Hz]:')
-        #layout_input_column_0_tab2.addWidget(self.frequencia)
+        #layout_column_0_tab_calculos_de_transporte.addWidget(self.frequencia)
         layout_frequencia.addWidget(self.frequencia)
         self.input_frequencia = QLineEdit(self)
         self.input_frequencia.setPlaceholderText('Hz')
-        self.input_frequencia.textChanged.connect(self.calcular)
-        #layout_input_column_0_tab2.addWidget(self.input_frequencia)
+        self.input_frequencia.textChanged.connect(self.calcular_transporte)
+        #layout_column_0_tab_calculos_de_transporte.addWidget(self.input_frequencia)
         layout_frequencia.addWidget(self.input_frequencia)
         layout_frequencia.addStretch()
-        layout_input_column_0_tab2.addLayout(layout_frequencia)
+        layout_column_0_tab_calculos_de_transporte.addLayout(layout_frequencia)
         
         # Poles
         layout_polos = QHBoxLayout()
         self.polos = QLabel('Polos [Nº]:')
-        #layout_input_column_0_tab2.addWidget(self.polos)
+        #layout_column_0_tab_calculos_de_transporte.addWidget(self.polos)
         layout_polos.addWidget(self.polos)
         self.input_polos = QLineEdit(self)
         self.input_polos.setPlaceholderText('Nº(2-4-6-8-16)')
-        self.input_polos.textChanged.connect(self.calcular)
-        #layout_input_column_0_tab2.addWidget(self.input_polos)
+        self.input_polos.textChanged.connect(self.calcular_transporte)
+        #layout_column_0_tab_calculos_de_transporte.addWidget(self.input_polos)
         layout_polos.addWidget(self.input_polos)
         layout_polos.addStretch()
-        layout_input_column_0_tab2.addLayout(layout_polos)
+        layout_column_0_tab_calculos_de_transporte.addLayout(layout_polos)
 
         # Pear fo poles
         self.par_de_polos = QLabel('Par de Polos [Nº]: ')
-        layout_input_column_0_tab2.addWidget(self.par_de_polos)
+        layout_column_0_tab_calculos_de_transporte.addWidget(self.par_de_polos)
         
         self.rps = QLabel('RPS:')
-        layout_input_column_0_tab2.addWidget(self.rps)
+        layout_column_0_tab_calculos_de_transporte.addWidget(self.rps)
 
         # RPM
         self.rpm = QLabel('RPM:')
-        layout_input_column_0_tab2.addWidget(self.rpm)
+        layout_column_0_tab_calculos_de_transporte.addWidget(self.rpm)
 
         #slip
         layout_escorregamento = QHBoxLayout()
         self.escorregamento = QLabel('Escorregamento [%]:')
-        #layout_input_column_0_tab2.addWidget(self.escorregamento)
+        #layout_column_0_tab_calculos_de_transporte.addWidget(self.escorregamento)
         layout_escorregamento.addWidget(self.escorregamento)
         self.input_escorregamento = QLineEdit(self)
         self.input_escorregamento.setPlaceholderText('0.0%')
-        self.input_escorregamento.textChanged.connect(self.calcular)
-        #layout_input_column_0_tab2.addWidget(self.input_escorregamento)
+        self.input_escorregamento.textChanged.connect(self.calcular_transporte)
+        #layout_column_0_tab_calculos_de_transporte.addWidget(self.input_escorregamento)
         layout_escorregamento.addWidget(self.input_escorregamento)
         layout_escorregamento.addStretch()
-        layout_input_column_0_tab2.addLayout(layout_escorregamento)
+        layout_column_0_tab_calculos_de_transporte.addLayout(layout_escorregamento)
 
         # RPM ~Real
         self.rpm_real = QLabel('RPM de Saida ~Real: ')
-        layout_input_column_0_tab2.addWidget(self.rpm_real)
+        layout_column_0_tab_calculos_de_transporte.addWidget(self.rpm_real)
 
         # Reduction velocity
         velocidade_da_reducao = QLabel('Velociadade da redução')
         velocidade_da_reducao.setStyleSheet("QLabel { color : blue; }")
-        layout_input_column_0_tab2.addWidget(velocidade_da_reducao)
+        layout_column_0_tab_calculos_de_transporte.addWidget(velocidade_da_reducao)
 
         # Reduction
         layout_reducao = QHBoxLayout()
@@ -106,19 +154,19 @@ class JanelaPrincipal(QWidget):
         self.input_reducao = QLineEdit(self)
         self.input_reducao.setPlaceholderText('X')
         layout_reducao.addWidget(self.input_reducao)
-        self.input_reducao.textChanged.connect(self.calcular)
+        self.input_reducao.textChanged.connect(self.calcular_transporte)
         layout_reducao.addStretch()
-        layout_input_column_0_tab2.addLayout(layout_reducao)
+        layout_column_0_tab_calculos_de_transporte.addLayout(layout_reducao)
 
         # RPM after Reduction
         self.rpm_apos_reducao = QLabel('RPM após Redução: ')
-        layout_input_column_0_tab2.addWidget(self.rpm_apos_reducao)
+        layout_column_0_tab_calculos_de_transporte.addWidget(self.rpm_apos_reducao)
 
         # Cylinder velocity
         velocidade_do_cilindro = QLabel('Velociadade do Cilindro')
         #velocidade_do_cilindro.setStyleSheet("QLabel { background-color : red; color : blue; }")
         velocidade_do_cilindro.setStyleSheet("QLabel { color : blue; }")
-        layout_input_column_0_tab2.addWidget(velocidade_do_cilindro)
+        layout_column_0_tab_calculos_de_transporte.addWidget(velocidade_do_cilindro)
 
         # traction diameter 
         layout_diametro_de_tracao = QHBoxLayout()
@@ -127,49 +175,33 @@ class JanelaPrincipal(QWidget):
         self.input_diametro_de_tracao = QLineEdit(self)
         self.input_diametro_de_tracao.setPlaceholderText('0.0 mm')
         layout_diametro_de_tracao.addWidget(self.input_diametro_de_tracao)
-        self.input_diametro_de_tracao.textChanged.connect(self.calcular)
+        self.input_diametro_de_tracao.textChanged.connect(self.calcular_transporte)
         layout_diametro_de_tracao.addStretch()
-        layout_input_column_0_tab2.addLayout(layout_diametro_de_tracao)
+        layout_column_0_tab_calculos_de_transporte.addLayout(layout_diametro_de_tracao)
 
         # Cylinder Perimeter
         self.perimetro_do_cilindro = QLabel(
             'Perímetro do Cilindro de Tração [mm]: ')
-        layout_input_column_0_tab2.addWidget(self.perimetro_do_cilindro)
+        layout_column_0_tab_calculos_de_transporte.addWidget(self.perimetro_do_cilindro)
 
         # Cylinder tangent Velocity
         self.velocidade_tangente = QLabel(
             'Velocidade Tangente [m/min]: ')
-        layout_input_column_0_tab2.addWidget(self.velocidade_tangente)
+        layout_column_0_tab_calculos_de_transporte.addWidget(self.velocidade_tangente)
 
-
-
-
-        # Functions
-        '''
-        funcoes = QLabel('Funções:')
-        layout_input_column_0_tab2.addWidget(funcoes)
-        funcao_1 = QLabel('Par de polos = Polos / 2')
-        layout_input_column_0_tab2.addWidget(funcao_1)
-        funcao_2 = QLabel('RPS = Frequência / ( Par de polos )')
-        layout_input_column_0_tab2.addWidget(funcao_2)
-        funcao_3 = QLabel('RPM = RPS * 60[s]')
-        layout_input_column_0_tab2.addWidget(funcao_3)
-        funcao_4 = QLabel('RPM ~Real = RPM - Escorregamento [%]')
-        layout_input_column_0_tab2.addWidget(funcao_4)
-        '''
         # end column 0
 
-        layout_input_column_0_tab2.addStretch()
+        layout_column_0_tab_calculos_de_transporte.addStretch()
 
-        layout_tab2.addLayout(layout_input_column_0_tab2)
+        layout_tab_calculos_de_transporte.addLayout(layout_column_0_tab_calculos_de_transporte)
 
-        # Imput column 1 tab2
-        layout_input_column_1_tab2 = QVBoxLayout()
+        # Imput column 1 tab_calculos_de_transporte
+        layout_column_1_tab_calculos_de_transporte = QVBoxLayout()
         
         # Engine Torque
         torque_do_motor = QLabel('Torque do Motor')
         torque_do_motor.setStyleSheet("QLabel { color : blue; }")
-        layout_input_column_1_tab2.addWidget(torque_do_motor)
+        layout_column_1_tab_calculos_de_transporte.addWidget(torque_do_motor)
 
         # Motor voltage
         layout_tensao_do_motor = QHBoxLayout()
@@ -178,9 +210,9 @@ class JanelaPrincipal(QWidget):
         self.input_tensao_do_motor = QLineEdit(self)
         self.input_tensao_do_motor.setPlaceholderText('0.0 Volts')
         layout_tensao_do_motor.addWidget(self.input_tensao_do_motor)
-        self.input_tensao_do_motor.textChanged.connect(self.calcular)
+        self.input_tensao_do_motor.textChanged.connect(self.calcular_transporte)
         layout_tensao_do_motor.addStretch()
-        layout_input_column_1_tab2.addLayout(layout_tensao_do_motor)
+        layout_column_1_tab_calculos_de_transporte.addLayout(layout_tensao_do_motor)
 
         # Potence factor (fator de potência = FP = COS@*n)
         layout_FP = QHBoxLayout()
@@ -189,9 +221,9 @@ class JanelaPrincipal(QWidget):
         self.input_FP = QLineEdit(self)
         self.input_FP.setPlaceholderText('0.0 FP')
         layout_FP.addWidget(self.input_FP)
-        self.input_FP.textChanged.connect(self.calcular)
+        self.input_FP.textChanged.connect(self.calcular_transporte)
         layout_FP.addStretch()
-        layout_input_column_1_tab2.addLayout(layout_FP)
+        layout_column_1_tab_calculos_de_transporte.addLayout(layout_FP)
 
         # n = rendimento
         layout_redimento = QHBoxLayout()
@@ -200,9 +232,9 @@ class JanelaPrincipal(QWidget):
         self.input_rendimento = QLineEdit(self)
         self.input_rendimento.setPlaceholderText('0.0 n')
         layout_redimento.addWidget(self.input_rendimento)
-        self.input_rendimento.textChanged.connect(self.calcular)
+        self.input_rendimento.textChanged.connect(self.calcular_transporte)
         layout_redimento.addStretch()
-        layout_input_column_1_tab2.addLayout(layout_redimento)
+        layout_column_1_tab_calculos_de_transporte.addLayout(layout_redimento)
 
        
 
@@ -213,9 +245,9 @@ class JanelaPrincipal(QWidget):
         self.input_corrente = QLineEdit(self)
         self.input_corrente.setPlaceholderText('0.0 A')
         layout_corrente.addWidget(self.input_corrente)
-        self.input_corrente.textChanged.connect(self.calcular)
+        self.input_corrente.textChanged.connect(self.calcular_transporte)
         layout_corrente.addStretch()
-        layout_input_column_1_tab2.addLayout(layout_corrente)
+        layout_column_1_tab_calculos_de_transporte.addLayout(layout_corrente)
 
         # FS = fartor de serviço
         layout_FS = QHBoxLayout()
@@ -224,27 +256,27 @@ class JanelaPrincipal(QWidget):
         self.input_FS = QLineEdit(self)
         self.input_FS.setPlaceholderText('0.0 FS')
         layout_FS.addWidget(self.input_FS)
-        self.input_FS.textChanged.connect(self.calcular)
+        self.input_FS.textChanged.connect(self.calcular_transporte)
         layout_FS.addStretch()
-        layout_input_column_1_tab2.addLayout(layout_FS)
+        layout_column_1_tab_calculos_de_transporte.addLayout(layout_FS)
 
         # Potência cv
         self.potencia_cv = QLabel('Potência [CV]: ')
-        layout_input_column_1_tab2.addWidget(self.potencia_cv)
+        layout_column_1_tab_calculos_de_transporte.addWidget(self.potencia_cv)
 
         # Pontência w
         self.potencia_w = QLabel('Potência [W]: ')
-        layout_input_column_1_tab2.addWidget(self.potencia_w)
+        layout_column_1_tab_calculos_de_transporte.addWidget(self.potencia_w)
 
         # gravidade 9.80665 m/s**2
 
         # conjugado nominal [kgfm]
         self.conjugado_kgmf = QLabel('Conjugado [kgmf]: ')
-        layout_input_column_1_tab2.addWidget(self.conjugado_kgmf)
+        layout_column_1_tab_calculos_de_transporte.addWidget(self.conjugado_kgmf)
 
         # conjugado nominal [Nm]
         self.conjugado_nm = QLabel('Conjugado [Nm]: ')
-        layout_input_column_1_tab2.addWidget(self.conjugado_nm)
+        layout_column_1_tab_calculos_de_transporte.addWidget(self.conjugado_nm)
 
         # Rendimento do redutor [%]
         layout_rendimento_redutor = QHBoxLayout()
@@ -253,45 +285,45 @@ class JanelaPrincipal(QWidget):
         self.input_rendimento_redutor = QLineEdit(self)
         self.input_rendimento_redutor.setPlaceholderText('0.0 [%]')
         layout_rendimento_redutor.addWidget(self.input_rendimento_redutor)
-        self.input_rendimento_redutor.textChanged.connect(self.calcular)
+        self.input_rendimento_redutor.textChanged.connect(self.calcular_transporte)
         layout_rendimento_redutor.addStretch()
-        layout_input_column_1_tab2.addLayout(layout_rendimento_redutor)
+        layout_column_1_tab_calculos_de_transporte.addLayout(layout_rendimento_redutor)
 
         # Torque após redutor [Nm]
         self.torque_redutor = QLabel('Torque após redutor [Nm]: ')
-        layout_input_column_1_tab2.addWidget(self.torque_redutor)
+        layout_column_1_tab_calculos_de_transporte.addWidget(self.torque_redutor)
 
         # Força tangente ao cilindro [N]
         self.forca_tagente = QLabel('Força tangente ao cilindro [N]: ')
-        layout_input_column_1_tab2.addWidget(self.forca_tagente)
+        layout_column_1_tab_calculos_de_transporte.addWidget(self.forca_tagente)
 
         # Carga máxima tangente cilindro [kg]
         self.carga_tagente = QLabel('Carga máxima tangente cilindro [kg]: ')
-        layout_input_column_1_tab2.addWidget(self.carga_tagente)
+        layout_column_1_tab_calculos_de_transporte.addWidget(self.carga_tagente)
 
         # and column 1
 
-        layout_input_column_1_tab2.addStretch()
+        layout_column_1_tab_calculos_de_transporte.addStretch()
 
-        layout_tab2.addLayout(layout_input_column_1_tab2)
-        layout_tab2.addStretch()
+        layout_tab_calculos_de_transporte.addLayout(layout_column_1_tab_calculos_de_transporte)
+        layout_tab_calculos_de_transporte.addStretch()
         
-        # tab3
-        self.tab3 = QWidget()
-        self.tabs.addTab(self.tab3, 'Calculos de produtividade')
-        layout_tab3 = QHBoxLayout()
+        # tab_calculos_de_produtividade
+        self.tab_calculos_de_produtividade = QWidget()
+        self.tabs.addTab(self.tab_calculos_de_produtividade, 'Calculos de produtividade')
+        layout_tab_calculos_de_produtividade = QHBoxLayout()
 
-        # tab4
-        self.tab4 = QWidget()
-        self.tabs.addTab(self.tab4, 'sobre')
-        layout_tab4 = QHBoxLayout()
+        # tab_sobre
+        self.tab_sobre = QWidget()
+        self.tabs.addTab(self.tab_sobre, 'sobre')
+        layout_tab_sobre = QHBoxLayout()
 
         layout.addWidget(self.tabs)
 
-        self.tab1.setLayout(layout_tab1)
-        self.tab2.setLayout(layout_tab2)
-        self.tab3.setLayout(layout_tab3)
-        self.tab3.setLayout(layout_tab4)
+        self.tab_configurar_maquina.setLayout(layout_tab_configurar_maquina)
+        self.tab_calculos_de_transporte.setLayout(layout_tab_calculos_de_transporte)
+        self.tab_calculos_de_produtividade.setLayout(layout_tab_calculos_de_produtividade)
+        self.tab_calculos_de_produtividade.setLayout(layout_tab_sobre)
 
         gerar_pdf = QPushButton('Gerar PDF', self)
         gerar_pdf.clicked.connect(self.funcao_gerar_pdf)
@@ -314,7 +346,7 @@ class JanelaPrincipal(QWidget):
     def novo(self):
         print('Novo projeto criado com sucesso.')
 
-    def calcular(self):
+    def calcular_transporte(self):
         #print(self.input_frequencia.text())
         #print(self.input_polos.text())
         #print(self.rps.text())
@@ -524,7 +556,7 @@ class JanelaPrincipal(QWidget):
                 'Carga máxima tangente cilindro [kg]: '
                 +str(carga_tangente)+'[kg]')
 
-        # Fim calcular
+        # Fim calcular_transporte
         
     def funcao_gerar_pdf(self):
         pdf = FPDF('P', 'mm', 'A4')
