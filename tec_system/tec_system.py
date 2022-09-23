@@ -1,7 +1,7 @@
-import os
+from ast import arguments
+from re import S
 import sys 
 import math
-
 from fpdf import FPDF
 from datetime import datetime
 import time
@@ -78,17 +78,17 @@ class JanelaPrincipal(QWidget):
         layout_input_column_0_tab2.addWidget(self.rpm)
 
         #slip
-        layout_escoregamento = QHBoxLayout()
-        self.escoregamento = QLabel('Escoregamento [%]:')
-        #layout_input_column_0_tab2.addWidget(self.escoregamento)
-        layout_escoregamento.addWidget(self.escoregamento)
-        self.input_escoregamento = QLineEdit(self)
-        self.input_escoregamento.setPlaceholderText('0.0%')
-        self.input_escoregamento.textChanged.connect(self.calcular)
-        #layout_input_column_0_tab2.addWidget(self.input_escoregamento)
-        layout_escoregamento.addWidget(self.input_escoregamento)
-        layout_escoregamento.addStretch()
-        layout_input_column_0_tab2.addLayout(layout_escoregamento)
+        layout_escorregamento = QHBoxLayout()
+        self.escorregamento = QLabel('Escorregamento [%]:')
+        #layout_input_column_0_tab2.addWidget(self.escorregamento)
+        layout_escorregamento.addWidget(self.escorregamento)
+        self.input_escorregamento = QLineEdit(self)
+        self.input_escorregamento.setPlaceholderText('0.0%')
+        self.input_escorregamento.textChanged.connect(self.calcular)
+        #layout_input_column_0_tab2.addWidget(self.input_escorregamento)
+        layout_escorregamento.addWidget(self.input_escorregamento)
+        layout_escorregamento.addStretch()
+        layout_input_column_0_tab2.addLayout(layout_escorregamento)
 
         # RPM ~Real
         self.rpm_real = QLabel('RPM de Saida ~Real: ')
@@ -154,7 +154,7 @@ class JanelaPrincipal(QWidget):
         layout_input_column_0_tab2.addWidget(funcao_2)
         funcao_3 = QLabel('RPM = RPS * 60[s]')
         layout_input_column_0_tab2.addWidget(funcao_3)
-        funcao_4 = QLabel('RPM ~Real = RPM - Escoregamento [%]')
+        funcao_4 = QLabel('RPM ~Real = RPM - Escorregamento [%]')
         layout_input_column_0_tab2.addWidget(funcao_4)
         '''
         # end column 0
@@ -374,18 +374,18 @@ class JanelaPrincipal(QWidget):
                 self.frequencia.setText('Frequência[Hz]: Erro. entrada float : 0.0')
 
         # Calculate ~Real RPM
-        if self.input_escoregamento.text():
+        if self.input_escorregamento.text():
             try:
-                if isinstance(float(self.input_escoregamento.text()),float):
+                if isinstance(float(self.input_escorregamento.text()),float):
                         print('calcula escorregamento')
-                        escorregamento = float(self.input_escoregamento.text())
+                        escorregamento = float(self.input_escorregamento.text())
                         rpm_real = rpm-(((rpm/100)*escorregamento))
                         self.rpm_real.setText('RPM de Saida ~Real: '+str(rpm_real)+' [RPM]')
                         print('calcula rpm_real')
-                        self.escoregamento.setText('Escoregamento [%]: ')
+                        self.escorregamento.setText('Escorregamento [%]: ')
             except:
                 print('erro ao converter input escorregamento para float')
-                self.escoregamento.setText('Escoregamento [%]: Erro. entrada float : 0.0')
+                self.escorregamento.setText('Escorregamento [%]: Erro. entrada float : 0.0')
 
         # Calculate RPM after Reduction
         if self.input_reducao.text():
@@ -531,26 +531,32 @@ class JanelaPrincipal(QWidget):
         pdf = FPDF('P', 'mm', 'A4')
     
         print('Gerar PDF')
-        cwd = os.getcwd()
-        print('diretório: ',cwd)
         timestamp = time.time()
         dt_object = datetime.fromtimestamp(timestamp)
+        print('Data: ',dt_object)
+        #pdf.cell(100, 10, txt = 'Data: '+ str(dt_object),ln = 1, align ='L')
 
         pdf.add_page()
-        pdf.set_font('Arial', size = 15)
-        print('Data: ',dt_object)
-        pdf.cell(200, 10, txt = 'Data: '+ str(dt_object),
-        ln = 1, align ='L')
+        pdf.set_font('Arial', size = 13)
+        pdf.cell(200, 10, txt = 'Máquina Configurada '+'Data: '+ str(dt_object),ln = 1, align ='C')
+        pdf.cell(100, 10, txt = 'Cálculos de Transporte',ln = 1, align ='C')
+
+        # Velocidade do motor        
+        pdf.cell(100, 10, txt = 'Velocidade do Motor',ln = 1, align ='L')
         #print('frequencia [Hz]: ',self.input_frequencia.text())
-        pdf.cell(300, 10, txt = 'frequencia [Hz]: '+ str(self.input_frequencia.text()),
-        ln = 1, align ='L')
-        file_name = QFileDialog.getSaveFileName(self, 'Save File','Configuração_da_máquina.pdf',filter='Arquivo (*.pdf)')
-        print('path: ',file_name[0])
+        pdf.cell(100, 5, txt = 'Frequência [Hz]: '+ str(self.input_frequencia.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Polos [Hz]: '+ str(self.input_polos.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.rpm.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Escorregamento [%]: '+ str(self.input_escorregamento.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.rpm_real.text()),ln = 1, align ='L')
+        file_name = QFileDialog.getSaveFileName(self, 'Save File','Maquina_configurada.pdf',filter='Arquivo(*.pdf)')
+        
+
+        print('file_name: ', file_name[0])
         if file_name[0]:
             pdf.output(file_name[0],dest='F').encode('latin-1')
         else:
-            print('arquivo_sem_nome')
-
+            print('erro_arquivo_sem_nome')
 
     def confirma_saida(self):
         confirma = QMessageBox.question(self,
