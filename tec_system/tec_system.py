@@ -1,8 +1,11 @@
-from ast import arguments
-from cmath import pi
-from re import S
+import os
 import sys 
 import math
+
+from fpdf import FPDF
+from datetime import datetime
+import time
+
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 from PyQt6.QtCore import Qt
@@ -290,8 +293,10 @@ class JanelaPrincipal(QWidget):
         self.tab3.setLayout(layout_tab3)
         self.tab3.setLayout(layout_tab4)
 
+        gerar_pdf = QPushButton('Gerar PDF', self)
+        gerar_pdf.clicked.connect(self.funcao_gerar_pdf)
+
         botao_sair = QPushButton('SAIR', self)
-        #botao0.move(275,260)
         botao_sair.clicked.connect(self.confirma_saida)
 
         layout_botoes_inferiores = QHBoxLayout()
@@ -299,6 +304,7 @@ class JanelaPrincipal(QWidget):
         layout.addLayout(layout_botoes_inferiores)
 
         layout_botoes_inferiores.addStretch()
+        layout_botoes_inferiores.addWidget(gerar_pdf)
         layout_botoes_inferiores.addWidget(botao_sair)
 
         self.setLayout(layout)
@@ -521,6 +527,29 @@ class JanelaPrincipal(QWidget):
 
         # Fim calcular
         
+    def funcao_gerar_pdf(self):
+        pdf = FPDF('P', 'mm', 'A4')
+    
+        print('Gerar PDF')
+        cwd = os.getcwd()
+        print('diretório: ',cwd)
+        timestamp = time.time()
+        dt_object = datetime.fromtimestamp(timestamp)
+
+        pdf.add_page()
+        pdf.set_font('Arial', size = 15)
+        print('Data: ',dt_object)
+        pdf.cell(200, 10, txt = 'Data: '+ str(dt_object),
+        ln = 1, align ='L')
+        #print('frequencia [Hz]: ',self.input_frequencia.text())
+        pdf.cell(300, 10, txt = 'frequencia [Hz]: '+ str(self.input_frequencia.text()),
+        ln = 1, align ='L')
+        file_name = QFileDialog.getSaveFileName(self, 'Save File','Configuração_da_máquina.pdf',filter='Arquivo (*.pdf)')
+        print('path: ',file_name[0])
+        if file_name[0]:
+            pdf.output(file_name[0],dest='F').encode('latin-1')
+        else:
+            print('arquivo_sem_nome')
 
 
     def confirma_saida(self):
