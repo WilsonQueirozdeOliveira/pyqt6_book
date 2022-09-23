@@ -407,7 +407,7 @@ class JanelaPrincipal(QWidget):
             try:
                 if isinstance(float(self.input_diametro_de_tracao.text()),float):
                         diametro_de_tracao = float(self.input_diametro_de_tracao.text())
-                        perimetro_do_cilindro = diametro_de_tracao*pi
+                        perimetro_do_cilindro = diametro_de_tracao*math.pi
                         self.perimetro_do_cilindro.setText(
                             'Perímetro do Cilindro de Tração [mm]: '
                             +str(perimetro_do_cilindro)+' [mm]'
@@ -416,8 +416,7 @@ class JanelaPrincipal(QWidget):
                         self.diametro_do_cilindro.setText(
                             'Diâmetro do Cilindro de Tração [mm]: ')
             except:
-                print(
-                    'erro ao converter input_diametro_de_tracao para float')
+                print('erro ao converter input_diametro_de_tracao para float')
                 self.diametro_do_cilindro.setText(
                     'Diâmetro do Cilindro de Tração [mm]: Erro. entrada float : 0.0')
         
@@ -549,9 +548,31 @@ class JanelaPrincipal(QWidget):
         pdf.cell(100, 5, txt = str(self.rpm.text()),ln = 1, align ='L')
         pdf.cell(100, 5, txt = 'Escorregamento [%]: '+ str(self.input_escorregamento.text()),ln = 1, align ='L')
         pdf.cell(100, 5, txt = str(self.rpm_real.text()),ln = 1, align ='L')
-        file_name = QFileDialog.getSaveFileName(self, 'Save File','Maquina_configurada.pdf',filter='Arquivo(*.pdf)')
+        pdf.cell(100, 5, txt = 'Redução [1/x]: 1/'+ str(self.input_reducao.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.rpm_apos_reducao.text()),ln = 1, align ='L')
         
+        # Velocidade do Cilindro      
+        pdf.cell(100, 10, txt = 'Velocidade do Cilindro',ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Diâmetro do Cilindro [mm]: '+ str(self.input_diametro_de_tracao.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.velocidade_tangente.text()),ln = 1, align ='L')
 
+        # Torque do motor
+        pdf.cell(100, 10, txt = 'Torque do Motor',ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Tensão do Motor [V]: '+ str(self.input_tensao_do_motor.text())+' V',ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Fator de Potência [FP]: '+ str(self.input_FP.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Rendimento [n]: '+ str(self.input_rendimento.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Corrente [A]: '+ str(self.input_corrente.text())+' A',ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Fator de Serviço [FS]: '+ str(self.input_FS.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.potencia_cv.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.potencia_w.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.conjugado_kgmf.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.conjugado_nm.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Rendimento do Redutor [%]: '+ str(self.input_rendimento_redutor.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.torque_redutor.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.forca_tagente.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = str(self.carga_tagente.text()),ln = 1, align ='L')
+
+        file_name = QFileDialog.getSaveFileName(self, 'Save File','Maquina_configurada.pdf',filter='Arquivo(*.pdf)')
         print('file_name: ', file_name[0])
         if file_name[0]:
             pdf.output(file_name[0],dest='F').encode('latin-1')
