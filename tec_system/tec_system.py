@@ -32,45 +32,108 @@ class JanelaPrincipal(QWidget):
 
         #tab ultraline horizontal
         self.tab_ultraline_horizontal = QWidget()
-        self.tab_configura_máquinas.addTab(self.tab_ultraline_horizontal, 'Ultraline Horizontal')
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_horizontal, 'Ultraline - Horizontal')
         layout_tab_ultraline_horizontal = QVBoxLayout()
 
         self.tab_ultraline_horizontal.setLayout(layout_tab_ultraline_horizontal)
 
         #tab ultraline inclinada
         self.tab_ultraline_inclinada = QWidget()
-        self.tab_configura_máquinas.addTab(self.tab_ultraline_inclinada, 'Ultraline Inclinada')
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_inclinada, 'Ultraline - Inclinada')
         layout_tab_ultraline_inclinada = QVBoxLayout()
 
         self.tab_ultraline_inclinada.setLayout(layout_tab_ultraline_inclinada)
 
         #tab ultraline horizontal para inclinada
         self.tab_ultraline_horizontal_para_inclinada = QWidget()
-        self.tab_configura_máquinas.addTab(self.tab_ultraline_horizontal_para_inclinada, 'Ultraline horizontal para Inclinada')
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_horizontal_para_inclinada, 'Ultraline - horizontal para Inclinada')
         layout_tab_ultraline_horizontal_para_inclinada = QVBoxLayout()
 
         self.tab_ultraline_horizontal_para_inclinada.setLayout(layout_tab_ultraline_horizontal_para_inclinada)
 
         #tab ultraline nose over
         self.tab_ultraline_nose_over = QWidget()
-        self.tab_configura_máquinas.addTab(self.tab_ultraline_nose_over, 'Ultraline Nose Over')
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_nose_over, 'Ultraline - Nose Over')
         layout_tab_ultraline_nose_over = QVBoxLayout()
 
         self.tab_ultraline_nose_over.setLayout(layout_tab_ultraline_nose_over)
 
         #tab ultraline Z
         self.tab_ultraline_z = QWidget()
-        self.tab_configura_máquinas.addTab(self.tab_ultraline_z, 'Ultraline "Z"')
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_z, 'Ultraline - "Z"')
         layout_tab_ultraline_z = QVBoxLayout()
 
         self.tab_ultraline_z.setLayout(layout_tab_ultraline_z)
 
         #tab Premiere Horizontal
         self.tab_premiere_horizontal = QWidget()
-        self.tab_configura_máquinas.addTab(self.tab_premiere_horizontal, 'Premiere Horizontal')
+        self.tab_configura_máquinas.addTab(self.tab_premiere_horizontal, 'Premiere - Horizontal')
         layout_tab_premiere_horizontal = QVBoxLayout()
 
         self.tab_premiere_horizontal.setLayout(layout_tab_premiere_horizontal)
+
+        #tab Premiere inclinada
+        self.tab_premiere_inclinada = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_premiere_inclinada, 'Premiere - Inclinada')
+        layout_tab_premiere_inclinada = QVBoxLayout()
+
+        self.tab_premiere_inclinada.setLayout(layout_tab_premiere_inclinada)
+
+        #tab Premiere horizontal para inclinada
+        self.tab_premiere_horizontal_para_inclinada = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_premiere_horizontal_para_inclinada, 'Premiere - Horizontal para Inclinada')
+        layout_tab_premiere_horizontal_para_inclinada = QVBoxLayout()
+
+        self.tab_premiere_horizontal_para_inclinada.setLayout(layout_tab_premiere_horizontal_para_inclinada)
+
+        #tab classic Horizontal
+        self.tab_classic_horizontal = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_classic_horizontal, 'Classic - Horizontal')
+        layout_tab_classic_horizontal = QVBoxLayout()
+
+        self.tab_classic_horizontal.setLayout(layout_tab_classic_horizontal)
+
+        #tab classic inclinada
+        self.tab_classic_inclinada = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_classic_inclinada, 'Classic - Inclinada')
+        layout_tab_classic_inclinada = QVBoxLayout()
+
+        self.tab_classic_inclinada.setLayout(layout_tab_classic_inclinada)
+
+        #tab Super classic Horizontal
+        self.tab_super_classic_horizontal = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_super_classic_horizontal, 'Super Classic - Horizontal')
+        layout_tab_super_classic_horizontal = QVBoxLayout()
+
+        self.tab_super_classic_horizontal.setLayout(layout_tab_super_classic_horizontal)
+
+        #tab super classic inclinada
+        self.tab_super_classic_inclinada = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_super_classic_inclinada, 'Super Classic - Inclinada')
+        layout_tab_super_classic_inclinada = QVBoxLayout()
+
+        self.tab_super_classic_inclinada.setLayout(layout_tab_super_classic_inclinada)
+
+                #tab ultraline horizontal
+        self.tab_ultraline_horizontal = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_horizontal, 'Ultraline - Horizontal')
+        layout_tab_ultraline_horizontal = QVBoxLayout()
+
+        self.tab_ultraline_horizontal.setLayout(layout_tab_ultraline_horizontal)
+
+        #tab ultraline inclinada
+        self.tab_ultraline_inclinada = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_inclinada, 'Ultraline - Inclinada')
+        layout_tab_ultraline_inclinada = QVBoxLayout()
+
+        self.tab_ultraline_inclinada.setLayout(layout_tab_ultraline_inclinada)
+
+        #tab ultraline horizontal para inclinada modulor
+        self.tab_ultraline_horizontal_para_inclinada_modular = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_ultraline_horizontal_para_inclinada_modular , 'Ultraline - Horizontal para Inclinada Modulor')
+        layout_tab_ultraline_horizontal_para_inclinada_modular  = QVBoxLayout()
+
+        self.tab_ultraline_horizontal_para_inclinada_modular .setLayout(layout_tab_ultraline_horizontal_para_inclinada_modular )
 
 
         # Fim layout tab configura máquinas
