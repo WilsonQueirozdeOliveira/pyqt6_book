@@ -97,7 +97,7 @@ class JanelaPrincipal(QWidget):
         layout_comprimento_util_u_h.addWidget(self.comprimento_util_u_h)
         self.input_comprimento_util_u_h = QLineEdit(self)
         self.input_comprimento_util_u_h.setPlaceholderText('mm')
-        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
+        self.input_comprimento_util_u_h.textChanged.connect(self.calcular_u_h)
         layout_comprimento_util_u_h.addWidget(self.input_comprimento_util_u_h)
         layout_comprimento_util_u_h.addStretch()
         
@@ -140,8 +140,8 @@ class JanelaPrincipal(QWidget):
         self.pintura_u_h = QLabel('Pintura:')
         layout_pintura_u_h.addWidget(self.pintura_u_h)
         self.input_pintura_u_h = QComboBox(self)
-        self.input_pintura_u_h.setPlaceholderText('código')
-        self.input_pintura_u_h.addItems(['vazio',
+        self.input_pintura_u_h.setPlaceholderText('0')
+        self.input_pintura_u_h.addItems(['0',
                                                         'Preto (Padrão Ultraline)',
                                                         'Bege RAL 7032 (Padrão Premier)',
                                                         'Especial'])
@@ -156,8 +156,8 @@ class JanelaPrincipal(QWidget):
         self.modelo_motoredutor_u_h = QLabel('Modelo do Motoredutor:')
         layout_modelo_motoredutor_u_h.addWidget(self.modelo_motoredutor_u_h)
         self.input_modelo_motoredutor_u_h = QComboBox(self)
-        self.input_modelo_motoredutor_u_h.setPlaceholderText('código')
-        self.input_modelo_motoredutor_u_h.addItems(['vazio',
+        self.input_modelo_motoredutor_u_h.setPlaceholderText('0')
+        self.input_modelo_motoredutor_u_h.addItems(['0',
                                                                     'GSA 28','GSA 41 (Padrão)',
                                                                     'GSA 51','GSA 63','GS 75'])
         #self.input_cliente.textChanged.connect(self.calcular_ultraline)
@@ -171,8 +171,8 @@ class JanelaPrincipal(QWidget):
         self.posicao_motoredutor_u_h = QLabel('Posição do Motoredutor:')
         layout_posicao_motoredutor_u_h.addWidget(self.posicao_motoredutor_u_h)
         self.input_posicao_motoredutor_u_h = QComboBox(self)
-        self.input_posicao_motoredutor_u_h.setPlaceholderText('código')
-        self.input_posicao_motoredutor_u_h.addItems(['vazio',
+        self.input_posicao_motoredutor_u_h.setPlaceholderText('0')
+        self.input_posicao_motoredutor_u_h.addItems(['0',
                                                                     'Esquerdo (puxando)','Esquerdo (empurrando)',
                                                                     'Direito (puxando)','Direito (empurrando)'])
         #self.input_cliente.textChanged.connect(self.calcular_ultraline)
@@ -186,8 +186,8 @@ class JanelaPrincipal(QWidget):
         self.modelo_cuba_u_h = QLabel('Modelo da Cuba:')
         layout_modelo_cuba_u_h.addWidget(self.modelo_cuba_u_h)
         self.input_modelo_cuba_u_h = QComboBox(self)
-        self.input_modelo_cuba_u_h.setPlaceholderText('código')
-        self.input_modelo_cuba_u_h.addItems(['vazio','Sem cuba','Padrão',
+        self.input_modelo_cuba_u_h.setPlaceholderText('0')
+        self.input_modelo_cuba_u_h.addItems(['0','Sem cuba','Padrão',
                                                             'Padrão sem lado Direito',
                                                             'Padrão sem lado Esquerdo','Especial'])
         #self.input_cliente.textChanged.connect(self.calcular_ultraline)
@@ -236,7 +236,7 @@ class JanelaPrincipal(QWidget):
         layout_coluna_1_tab_u_h.addWidget(mancal_livre_u_h)
 
         # pernas
-        pernas_u_h = QLabel('Pernal ')
+        pernas_u_h = QLabel('Pernas ')
         layout_coluna_1_tab_u_h.addWidget(pernas_u_h)
 
         # perfil U
@@ -348,26 +348,102 @@ class JanelaPrincipal(QWidget):
         layout_coluna_2_tab_u_h.addWidget(eletrica_u_h)
 
         # acionamento eletrico
-        acionamento_u_h = QLabel('Acionamento Elético: ')
-        layout_coluna_2_tab_u_h.addWidget(acionamento_u_h)
+        layout_acionamento_u_h = QHBoxLayout()
+        self.acionamento_u_h = QLabel('Acionamento Elético: ')
+        layout_acionamento_u_h.addWidget(self.acionamento_u_h)
+        self.input_acionamento_u_h = QComboBox(self)
+        self.input_acionamento_u_h.setPlaceholderText('0')
+        self.input_acionamento_u_h.addItems(['0',
+                                            'Chave Liga / Desliga',
+                                            'Painel Liga / Desliga',
+                                            'Painel Liga / Desliga c/ Inversor',
+                                            'Painel Passo Indexado',
+                                            'Painel Passo Indexado c/ Inversor',
+                                            'Painel Especial (Ver Observções)'])                                                    	
+	
+        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
+        layout_acionamento_u_h.addWidget(self.input_acionamento_u_h)
+        layout_acionamento_u_h.addStretch()
+        
+        layout_coluna_2_tab_u_h.addLayout(layout_acionamento_u_h)
 
         # alimentacao
-        alimentacao_u_h = QLabel('Alimentação: ')
-        layout_coluna_2_tab_u_h.addWidget(alimentacao_u_h)
+        layout_alimentacao_u_h = QHBoxLayout()
+        self.alimentacao_u_h = QLabel('Alimentação: ')
+        layout_alimentacao_u_h.addWidget(self.alimentacao_u_h)
+        self.input_alimentacao_u_h = QComboBox(self)
+        self.input_alimentacao_u_h.setPlaceholderText('0')
+        self.input_alimentacao_u_h.addItems(['0',
+                                            'Plug 3P + T 16A / 220V',
+                                            'Plug 3P + T 16A / 380V',
+                                            'Plug 3P + T 16A / 440V',
+                                            'Plug 3P + T 32A / 220V',
+                                            'Plug 3P + T 32A / 380V',
+                                            'Plug 3P + T 32A / 440V',
+                                            'Plug 3P + N + T 16A / 220V(5pinos)',
+                                            'Plug 3P + N + T 16A / 380V(5pinos)',
+                                            'Plug 3P + N + T 16A / 440V(5pinos)',
+                                            'Plug 3P + N + T 32A / 220V(5pinos)',
+                                            'Plug 3P + N + T 32A / 380V(5pinos)',
+                                            'Plug 3P + N + T 32A / 440V(5pinos)',
+                                            '220V',
+                                            '380V',
+                                            '440V',])                                          	
+	
+        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
+        layout_alimentacao_u_h.addWidget(self.input_alimentacao_u_h)
+        layout_alimentacao_u_h.addStretch()
+        
+        layout_coluna_2_tab_u_h.addLayout(layout_alimentacao_u_h)
 
-        # comprimento do cabo
-        comprimento_cabo_u_h = QLabel('Comprimento do cabo: ')
-        layout_coluna_2_tab_u_h.addWidget(comprimento_cabo_u_h)
+        # comprimento_cabo
+        layout_comprimento_cabo_u_h = QHBoxLayout()
+        self.comprimento_cabo_u_h = QLabel('Comprimento do cabo [m]:')
+        layout_comprimento_cabo_u_h.addWidget(self.comprimento_cabo_u_h)
+        self.input_comprimento_cabo_u_h = QLineEdit(self)
+        self.input_comprimento_cabo_u_h.setPlaceholderText('mm')
+        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
+        layout_comprimento_cabo_u_h.addWidget(self.input_comprimento_cabo_u_h)
+        layout_comprimento_cabo_u_h.addStretch()
+        
+        layout_coluna_2_tab_u_h.addLayout(layout_comprimento_cabo_u_h)
 
         # comando
-        comando_u_h = QLabel('Comando: ')
-        layout_coluna_2_tab_u_h.addWidget(comando_u_h)
+        layout_comando_u_h = QHBoxLayout()
+        self.comando_u_h = QLabel('Comando: ')
+        layout_comando_u_h.addWidget(self.comando_u_h)
+        self.input_comando_u_h = QComboBox(self)
+        self.input_comando_u_h.setPlaceholderText('0')
+        self.input_comando_u_h.addItems(['0',
+                                            '24 V',
+                                            '220 V',
+                                            '380 V',
+                                            '440 V'])   
 
-        # segurança
-        seguranca_u_h = QLabel('Seguraça: ')
-        layout_coluna_2_tab_u_h.addWidget(seguranca_u_h)
+        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
+        layout_comando_u_h.addWidget(self.input_comando_u_h)
+        layout_comando_u_h.addStretch()
+        
+        layout_coluna_2_tab_u_h.addLayout(layout_comando_u_h)
+
+        # seguranca
+        layout_seguranca_u_h = QHBoxLayout()
+        self.seguranca_u_h = QLabel('Segurança: ')
+        layout_seguranca_u_h.addWidget(self.seguranca_u_h)
+        self.input_seguranca_u_h = QComboBox(self)
+        self.input_seguranca_u_h.setPlaceholderText('0')
+        self.input_seguranca_u_h.addItems(['0',
+                                            'Padrão',
+                                            'NR-12'])   
+
+        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
+        layout_seguranca_u_h.addWidget(self.input_seguranca_u_h)
+        layout_seguranca_u_h.addStretch()
+        
+        layout_coluna_2_tab_u_h.addLayout(layout_seguranca_u_h)
 
                
+
 
         # fim vbox layout_coluna_2_tab_u_h
         layout_coluna_2_tab_u_h.addStretch()
@@ -395,7 +471,7 @@ class JanelaPrincipal(QWidget):
         # fim vbox tab_u_h
         self.tab_u_h.setLayout(layout_tab_u_h)
         
-
+    ####################################
 
         #tab ultraline inclinada
         self.tab_u_i = QWidget()
@@ -813,6 +889,10 @@ class JanelaPrincipal(QWidget):
     def novo(self):
         print('Novo projeto criado com sucesso.')
 
+    def calcular_u_h(self, comprimento_util = 0):
+        print(comprimento_util)
+        pass
+
     def calcular_transporte(self):
         #print(self.input_frequencia.text())
         #print(self.input_polos.text())
@@ -1116,5 +1196,5 @@ class JanelaPrincipal(QWidget):
       
 qt = QApplication(sys.argv)
 app = JanelaPrincipal()
-app.setStyleSheet('.QLabel { font-size: 11pt;} .QLineEdit { font-size: 12pt;}')
+app.setStyleSheet('.QLabel { font-size: 11pt;} .QLineEdit { font-size: 11pt;}')
 sys.exit(qt.exec())
