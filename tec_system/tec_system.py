@@ -106,6 +106,9 @@ class JanelaPrincipal(QWidget):
         # Comprimento Útil pol
         self.comprimento_util_pol_u_h = QLabel('Comprimento Útil [pol]: ')
         layout_coluna_0_tab_u_h.addWidget(self.comprimento_util_pol_u_h)
+        # Comprimento Útil pes
+        self.comprimento_util_pes_u_h = QLabel('Comprimento Útil [pes]: ')
+        layout_coluna_0_tab_u_h.addWidget(self.comprimento_util_pes_u_h)
 
         # largura_util
         layout_largura_util_u_h = QHBoxLayout()
@@ -113,7 +116,7 @@ class JanelaPrincipal(QWidget):
         layout_largura_util_u_h.addWidget(self.largura_util_u_h)
         self.input_largura_util_u_h = QLineEdit(self)
         self.input_largura_util_u_h.setPlaceholderText('mm')
-        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
+        self.input_largura_util_u_h.textChanged.connect(self.calcular_u_h)
         layout_largura_util_u_h.addWidget(self.input_largura_util_u_h)
         layout_largura_util_u_h.addStretch()
         
@@ -208,27 +211,27 @@ class JanelaPrincipal(QWidget):
         layout_coluna_1_tab_u_h.addWidget(Montagem_u_h)
 
         # perfil_lateral
-        perfil_lateral_u_h = QLabel('Perfil Lateral [mm]: ')
-        layout_coluna_1_tab_u_h.addWidget(perfil_lateral_u_h)
+        self.perfil_lateral_u_h = QLabel('Perfil Lateral [mm]: ')
+        layout_coluna_1_tab_u_h.addWidget(self.perfil_lateral_u_h)
 
         # perfil_travessa
-        perfil_travessa_u_h = QLabel('Perfil Travessa [mm]: ')
-        layout_coluna_1_tab_u_h.addWidget(perfil_travessa_u_h)
+        self.perfil_travessa_u_h = QLabel('Perfil Travessa [mm]: ')
+        layout_coluna_1_tab_u_h.addWidget(self.perfil_travessa_u_h)
 
         # chapa de apoio
-        chapa_apoio_u_h = QLabel('Chapa de apoio: ')
-        layout_coluna_1_tab_u_h.addWidget(chapa_apoio_u_h)
+        self.chapa_apoio_u_h = QLabel('Chapa de apoio:L[mm]xC[mm] ')
+        layout_coluna_1_tab_u_h.addWidget(self.chapa_apoio_u_h)
 
         # guias laterais
-        guias_u_h = QLabel('Guias: ')
-        layout_coluna_1_tab_u_h.addWidget(guias_u_h)
+        self.guias_u_h = QLabel('Guias/Corte[mm]: ')
+        layout_coluna_1_tab_u_h.addWidget(self.guias_u_h)
 
         # Fixador em ângulo
         fixador_em_angulo_u_h = QLabel('Fixador em ângulo: U.004.001')
         layout_coluna_1_tab_u_h.addWidget(fixador_em_angulo_u_h)
 
         # Mancal para Rolo de tração
-        mancal_tracao_u_h = QLabel('Mancal de tração: depende do redutor')
+        mancal_tracao_u_h = QLabel('Mancal de tração: Escolha Motoredutor')
         layout_coluna_1_tab_u_h.addWidget(mancal_tracao_u_h)
 
         # Mancal para Rolo libre
@@ -240,8 +243,8 @@ class JanelaPrincipal(QWidget):
         layout_coluna_1_tab_u_h.addWidget(pernas_u_h)
 
         # perfil U
-        perfil_U_u_h = QLabel('Perfil U [mm]: ')
-        layout_coluna_1_tab_u_h.addWidget(perfil_U_u_h)
+        self.perfil_U_u_h = QLabel('Perfil U [mm]: ')
+        layout_coluna_1_tab_u_h.addWidget(self.perfil_U_u_h)
 
         # perna tubo quadrado
         perna_tubo_quadrado_u_h = QLabel('Perna tubo quadrado [mm]: ')
@@ -359,7 +362,7 @@ class JanelaPrincipal(QWidget):
                                             'Painel Liga / Desliga c/ Inversor',
                                             'Painel Passo Indexado',
                                             'Painel Passo Indexado c/ Inversor',
-                                            'Painel Especial (Ver Observções)'])                                                    	
+                                            'Painel Especial (Ver Notas Gerais)'])                                                    	
 	
         #self.input_cliente.textChanged.connect(self.calcular_ultraline)
         layout_acionamento_u_h.addWidget(self.input_acionamento_u_h)
@@ -450,13 +453,18 @@ class JanelaPrincipal(QWidget):
 
         layout_coluna_3_tab_u_h = QVBoxLayout()
 
-        # observações
-        layout_observacoes = QVBoxLayout()
-        observacoes_u_h = QLabel('Observações: ')
-        layout_observacoes.addWidget(observacoes_u_h)
-        self.input_observacoes = QTextEdit(self)
-        layout_observacoes.addWidget(self.input_observacoes)
-        layout_coluna_3_tab_u_h.addLayout(layout_observacoes) 
+        # Notas Gerais
+        layout_notas_gerais = QVBoxLayout()
+        notas_gerais_u_h = QLabel('Notas Gerais: ')
+        layout_notas_gerais.addWidget(notas_gerais_u_h)
+        self.input_notas_gerais = QTextEdit(self)
+        layout_notas_gerais.addWidget(self.input_notas_gerais)
+        layout_coluna_3_tab_u_h.addLayout(layout_notas_gerais) 
+
+        # custos
+        custos_u_h = QLabel('Custos')
+        custos_u_h.setStyleSheet("QLabel { color : blue; }")
+        layout_coluna_3_tab_u_h.addWidget(custos_u_h)
 
         # fim vbox layout_coluna_3_tab_u_h
         layout_coluna_3_tab_u_h.addStretch()
@@ -868,6 +876,7 @@ class JanelaPrincipal(QWidget):
         self.tab_calculos_de_produtividade.setLayout(layout_tab_calculos_de_produtividade)
         self.tab_sobre.setLayout(layout_tab_sobre)
 
+        #botoes inferiores
         gerar_pdf = QPushButton('Gerar PDF', self)
         gerar_pdf.clicked.connect(self.funcao_gerar_pdf)
 
@@ -876,11 +885,14 @@ class JanelaPrincipal(QWidget):
 
         layout_botoes_inferiores = QHBoxLayout()
         
-        layout.addLayout(layout_botoes_inferiores)
+        
 
         layout_botoes_inferiores.addStretch()
         layout_botoes_inferiores.addWidget(gerar_pdf)
         layout_botoes_inferiores.addWidget(botao_sair)
+        #fim botoes inferiores
+
+        layout.addLayout(layout_botoes_inferiores)
 
         self.setLayout(layout)
 
@@ -889,8 +901,76 @@ class JanelaPrincipal(QWidget):
     def novo(self):
         print('Novo projeto criado com sucesso.')
 
-    def calcular_u_h(self, comprimento_util = 0):
-        print(comprimento_util)
+    def calcular_u_h(self):
+
+        mm_pol = 25.4
+        mm_pes = 304.8
+
+        # Converter comprimanto util
+        if self.input_comprimento_util_u_h.text():
+            try:
+                if isinstance(float(self.input_comprimento_util_u_h.text()),float):
+                    comprimento_util_u_h = float(self.input_comprimento_util_u_h.text())
+                    comprimento_util_u_h_pol = comprimento_util_u_h/mm_pol
+                    comprimento_util_u_h_pes = comprimento_util_u_h/mm_pes
+                    self.comprimento_util_pol_u_h.setText('Comprimento Útil [pol]: '+str(comprimento_util_u_h_pol))
+                    self.comprimento_util_pes_u_h.setText('Comprimento Útil [pes]: '+str(comprimento_util_u_h_pes))
+                    print('converter comprimento_util_u_h_pol')
+                    print('converter comprimento_util_u_h_pes')
+
+                    #perfil lateral corte montagem 
+                    print('converter comprimento perfil lateral')  
+                    perfil_lateral_u_h = comprimento_util_u_h-152.4 # util menos mancal e esticador
+                    self.perfil_lateral_u_h.setText('Perfil Lateral [mm]: '+str(perfil_lateral_u_h)) 
+
+                    # guias / corte
+                    print('guias  / corte')  
+                    guia_u_h = perfil_lateral_u_h + 254.0 # guias
+                    corte_guia_u_h = guia_u_h + 205.0 # corte
+                    self.guias_u_h.setText('Guias/Corte [mm]:'+str(guia_u_h)+' / '+str(corte_guia_u_h)) 
+
+            except:
+                print('erro ao converter comprimento_util_u_h_pol')
+                print('erro ao converter comprimento_util_u_h_pes')
+                print('erro ao converter comprimento perfil lateral')
+
+        # Converter largura util
+        if self.input_largura_util_u_h.text():
+            try:
+                if isinstance(float(self.input_largura_util_u_h.text()),float):
+                    largura_util_u_h = float(self.input_largura_util_u_h.text())
+                    largura_util_u_h_pol = largura_util_u_h/mm_pol
+                    self.largura_util_pol_u_h.setText('largura Útil [pol]: '+str(largura_util_u_h_pol))
+
+                    print('converter largura_util_u_h_pol')   
+
+                    #perfil travessa corte montagem 
+                    print('converter travessa corte montagem')  
+                    perfil_travessa_u_h = largura_util_u_h+50.8 # util mais espaço abaixo das guias
+                    self.perfil_travessa_u_h.setText('Perfil Travessa [mm]: '+str(perfil_travessa_u_h))   
+
+                    #'Chapa de apoio:L[mm]xC[mm] '     
+                    print('converter Chapa de apoio:L[mm]xC[mm]')  
+                    L_chapa_de_apoio = largura_util_u_h/2.0 # util dividida espaço de 50.8
+                    try:
+                        C_chapa_de_apoio = comprimento_util_u_h-mm_pes # util menos um pé
+                    except:
+                        print('comprimento_util_u_h vazio')
+                    self.chapa_apoio_u_h.setText('Chapa de apoio[mm]: L '+str(L_chapa_de_apoio)+'xC '+str(C_chapa_de_apoio))     
+            except:
+                print('erro ao converter largura_util_u_h_pol')
+
+
+        '''
+        GRA F 204 (com rebaixo no eixo)
+        GRA F 204
+        GRA F 205
+        GRA F 206
+        GRA F 207
+
+        '''        
+
+        # fim calcula ultraline horizontal               
         pass
 
     def calcular_transporte(self):
