@@ -11,6 +11,7 @@ from PyQt6.QtGui import *
 from PyQt6.QtCore import Qt
 
 class JanelaPrincipal(QWidget):
+#class JanelaPrincipal(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Automação de cálculos de Dimensionamento')
@@ -34,6 +35,7 @@ class JanelaPrincipal(QWidget):
         self.tab_u_h = QWidget()
         self.tab_configura_máquinas.addTab(self.tab_u_h, 'Ultraline - Horizontal')
         layout_tab_u_h = QHBoxLayout()
+        
 
         # Imput column 0 tab_u_h
         layout_coluna_0_tab_u_h = QVBoxLayout()
@@ -66,6 +68,18 @@ class JanelaPrincipal(QWidget):
         layout_OF_u_h.addStretch()
         
         layout_coluna_0_tab_u_h.addLayout(layout_OF_u_h)
+
+        # quantidade
+        layout_quantidade_u_h = QHBoxLayout()
+        self.quantidade_u_h = QLabel('Quantidade:')
+        layout_quantidade_u_h.addWidget(self.quantidade_u_h)
+        self.input_quantidade_u_h = QLineEdit(self)
+        self.input_quantidade_u_h.setPlaceholderText('n')
+        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
+        layout_quantidade_u_h.addWidget(self.input_quantidade_u_h)
+        layout_quantidade_u_h.addStretch()
+        
+        layout_coluna_0_tab_u_h.addLayout(layout_quantidade_u_h)
 
         # data_de_emissao
         layout_data_de_emissao_u_h = QHBoxLayout()
@@ -107,7 +121,7 @@ class JanelaPrincipal(QWidget):
         self.comprimento_util_pol_u_h = QLabel('Comprimento Útil [pol]: ')
         layout_coluna_0_tab_u_h.addWidget(self.comprimento_util_pol_u_h)
         # Comprimento Útil pes
-        self.comprimento_util_pes_u_h = QLabel('Comprimento Útil [pes]: ')
+        self.comprimento_util_pes_u_h = QLabel('Comprimento Útil [pés]: ')
         layout_coluna_0_tab_u_h.addWidget(self.comprimento_util_pes_u_h)
 
         # largura_util
@@ -123,17 +137,17 @@ class JanelaPrincipal(QWidget):
         layout_coluna_0_tab_u_h.addLayout(layout_largura_util_u_h)
 
         # largura Útil pol
-        self.largura_util_pol_u_h = QLabel('Largura Útil [pol]: ')
+        self.largura_util_pol_u_h = QLabel('Largura Útil [pol.]: ')
         layout_coluna_0_tab_u_h.addWidget(self.largura_util_pol_u_h)
 
         # altura_u_h
         layout_altura_u_h = QHBoxLayout()
         self.altura_u_h = QLabel('Altura Útil [mm]:')
         layout_altura_u_h.addWidget(self.altura_u_h)
-        self.input_altura_u_h = QLineEdit(self)
-        self.input_altura_u_h.setPlaceholderText('mm')
-        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
-        layout_altura_u_h.addWidget(self.input_altura_u_h)
+        self.input_altura_util_u_h = QLineEdit(self)
+        self.input_altura_util_u_h.setPlaceholderText('mm')
+        self.input_altura_util_u_h.textChanged.connect(self.calcular_u_h)
+        layout_altura_u_h.addWidget(self.input_altura_util_u_h)
         layout_altura_u_h.addStretch()
         
         layout_coluna_0_tab_u_h.addLayout(layout_altura_u_h)
@@ -147,8 +161,9 @@ class JanelaPrincipal(QWidget):
         self.input_pintura_u_h.addItems(['0',
                                                         'Preto (Padrão Ultraline)',
                                                         'Bege RAL 7032 (Padrão Premier)',
-                                                        'Especial'])
-        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
+                                                        'Especial',
+                                                        'Branca'])
+        self.input_pintura_u_h.editTextChanged.connect(self.calcular_u_h)
         layout_pintura_u_h.addWidget(self.input_pintura_u_h)
         layout_pintura_u_h.addStretch()
         
@@ -163,7 +178,7 @@ class JanelaPrincipal(QWidget):
         self.input_modelo_motoredutor_u_h.addItems(['0',
                                                                     'GSA 28','GSA 41 (Padrão)',
                                                                     'GSA 51','GSA 63','GS 75'])
-        #self.input_cliente.textChanged.connect(self.calcular_ultraline)
+        self.input_modelo_motoredutor_u_h.currentIndexChanged.connect(self.calcular_u_h)
         layout_modelo_motoredutor_u_h.addWidget(self.input_modelo_motoredutor_u_h)
         layout_modelo_motoredutor_u_h.addStretch()
         
@@ -206,9 +221,9 @@ class JanelaPrincipal(QWidget):
         layout_coluna_1_tab_u_h = QVBoxLayout()
 
         # Titulo Montagem
-        Montagem_u_h = QLabel('Montagem')
-        Montagem_u_h.setStyleSheet("QLabel { color : blue; }")
-        layout_coluna_1_tab_u_h.addWidget(Montagem_u_h)
+        self.Montagem_u_h = QLabel('Montagem')
+        self.Montagem_u_h.setStyleSheet("QLabel { color : blue; }")
+        layout_coluna_1_tab_u_h.addWidget(self.Montagem_u_h)
 
         # perfil_lateral
         self.perfil_lateral_u_h = QLabel('Perfil Lateral [mm]: ')
@@ -227,65 +242,100 @@ class JanelaPrincipal(QWidget):
         layout_coluna_1_tab_u_h.addWidget(self.guias_u_h)
 
         # Fixador em ângulo
-        fixador_em_angulo_u_h = QLabel('Fixador em ângulo: U.004.001')
-        layout_coluna_1_tab_u_h.addWidget(fixador_em_angulo_u_h)
+        self.fixador_em_angulo_u_h = QLabel('Fixador em ângulo: U.004.001')
+        layout_coluna_1_tab_u_h.addWidget(self.fixador_em_angulo_u_h)
 
         # Mancal para Rolo de tração
-        mancal_tracao_u_h = QLabel('Mancal de tração: Escolha Motoredutor')
-        layout_coluna_1_tab_u_h.addWidget(mancal_tracao_u_h)
+        self.mancal_tracao_u_h = QLabel('Mancal de tração: Escolha Motoredutor')
+        layout_coluna_1_tab_u_h.addWidget(self.mancal_tracao_u_h)
 
         # Mancal para Rolo libre
-        mancal_livre_u_h = QLabel('Mancal livre: T.515.002.00.00')
-        layout_coluna_1_tab_u_h.addWidget(mancal_livre_u_h)
+        self.mancal_livre_u_h = QLabel('Mancal livre: T.515.002.00.00')
+        layout_coluna_1_tab_u_h.addWidget(self.mancal_livre_u_h)
 
         # pernas
-        pernas_u_h = QLabel('Pernas ')
-        layout_coluna_1_tab_u_h.addWidget(pernas_u_h)
+        self.pernas_u_h = QLabel('Pernas ')
+        layout_coluna_1_tab_u_h.addWidget(self.pernas_u_h)
 
         # perfil U
         self.perfil_U_u_h = QLabel('Perfil U [mm]: ')
         layout_coluna_1_tab_u_h.addWidget(self.perfil_U_u_h)
 
         # perna tubo quadrado
-        perna_tubo_quadrado_u_h = QLabel('Perna tubo quadrado [mm]: ')
-        layout_coluna_1_tab_u_h.addWidget(perna_tubo_quadrado_u_h)
+        self.perna_tubo_quadrado_u_h = QLabel('Perna tubo quadrado [mm]: ')
+        layout_coluna_1_tab_u_h.addWidget(self.perna_tubo_quadrado_u_h)
 
         # Rodízio c/ Freio =
-        rodizio_F_u_h = QLabel('Rodízio c/ Freio [mm]: GLE 312 NTE G')
-        layout_coluna_1_tab_u_h.addWidget(rodizio_F_u_h)
+        self.rodizio_F_u_h = QLabel('Rodízio c/ Freio [mm]: GLE 312 NTE G')
+        layout_coluna_1_tab_u_h.addWidget(self.rodizio_F_u_h)
         
         # Tubo Quad. entre pernas =
-        tubo_interno_u_h = QLabel('Tubo Quad. entre pernas [mm]: ')
-        layout_coluna_1_tab_u_h.addWidget(tubo_interno_u_h)
+        self.tubo_interno_u_h = QLabel('Tubo Quad. entre pernas [mm]: ')
+        layout_coluna_1_tab_u_h.addWidget(self.tubo_interno_u_h)
 
         # correia
-        correia_u_h = QLabel('Correia')
-        correia_u_h.setStyleSheet("QLabel { color : blue; }")
-        layout_coluna_1_tab_u_h.addWidget(correia_u_h)
+        self.correia_u_h = QLabel('Correia')
+        self.correia_u_h.setStyleSheet("QLabel { color : blue; }")
+        layout_coluna_1_tab_u_h.addWidget(self.correia_u_h)
 
         # largura da correia
-        largura_correia_u_h = QLabel('Largura da correira:')
-        layout_coluna_1_tab_u_h.addWidget(largura_correia_u_h)
+        self.largura_correia_u_h = QLabel('Largura da correira:')
+        layout_coluna_1_tab_u_h.addWidget(self.largura_correia_u_h)
 
         # Comprimento da correia
-        comprimento_correia_u_h = QLabel('Comprimento da correira:')
-        layout_coluna_1_tab_u_h.addWidget(comprimento_correia_u_h)
+        self.comprimento_correia_u_h = QLabel('Comprimento da correira:')
+        layout_coluna_1_tab_u_h.addWidget(self.comprimento_correia_u_h)
 
         # Cor da correia
-        cor_correia_u_h = QLabel('Cor da correira:')
-        layout_coluna_1_tab_u_h.addWidget(cor_correia_u_h)
+        layout_cor_correia_u_h = QHBoxLayout()
+        self.cor_correia_u_h = QLabel('Cor da correira: ')
+        layout_cor_correia_u_h.addWidget(self.cor_correia_u_h)
+        self.input_cor_correia = QComboBox(self)
+        self.input_cor_correia.setPlaceholderText('0')
+        self.input_cor_correia.addItems(['0','verde','Branca','Preta','azul'])
+        ## call
+        layout_cor_correia_u_h.addWidget(self.input_cor_correia)
+        layout_cor_correia_u_h.addStretch()
+        layout_coluna_1_tab_u_h.addLayout(layout_cor_correia_u_h)
 
         # passo da talisca
-        passo_talisca_u_h = QLabel('Passo da talisca:')
-        layout_coluna_1_tab_u_h.addWidget(passo_talisca_u_h)
+        layout_passo_talisca_u_h = QHBoxLayout()
+        self.passo_talisca_u_h = QLabel('Passo da talisca[mm]:')
+        layout_passo_talisca_u_h.addWidget(self.passo_talisca_u_h)
+        self.input_passo_talisca = QLineEdit(self)
+        self.input_passo_talisca.setPlaceholderText('mm')
+        ## call function
+        layout_passo_talisca_u_h.addWidget(self.input_passo_talisca)
+        layout_passo_talisca_u_h.addStretch()
+
+        layout_coluna_1_tab_u_h.addLayout(layout_passo_talisca_u_h)
 
         # altura da talisca
-        altura_talisca_u_h = QLabel('Altura da talisca:')
-        layout_coluna_1_tab_u_h.addWidget(altura_talisca_u_h)
+        layout_altura_talisca_u_h = QHBoxLayout()
+        self.altura_talisca_u_h = QLabel('Altura da talisca[mm]:')
+        layout_altura_talisca_u_h.addWidget(self.altura_talisca_u_h)
+        self.input_altura_talisca_u_h = QLineEdit(self)
+        self.input_altura_talisca_u_h.setPlaceholderText('mm')
+        # call
+        layout_altura_talisca_u_h.addWidget(self.input_altura_talisca_u_h)
+        layout_altura_talisca_u_h.addStretch()
+        
+        layout_coluna_1_tab_u_h.addLayout(layout_altura_talisca_u_h)
+
 
         # borda_sanfonada
-        borda_sanfonada_u_h = QLabel('Borda Sanfonada:')
-        layout_coluna_1_tab_u_h.addWidget(borda_sanfonada_u_h)
+        layout_altura_borda_sanfonada_u_h = QHBoxLayout()
+        self.altura_borda_sanfonada_u_h = QLabel('Altura da Borda Sanfonada[mm]:')
+        layout_altura_borda_sanfonada_u_h.addWidget(self.altura_borda_sanfonada_u_h)
+        self.input_altura_borda_sanfonada = QLineEdit(self)
+        self.input_altura_borda_sanfonada.setPlaceholderText('mm')
+        #call
+        layout_altura_borda_sanfonada_u_h.addWidget(self.input_altura_borda_sanfonada)
+        layout_altura_borda_sanfonada_u_h.addStretch()
+        
+        layout_coluna_1_tab_u_h.addLayout(layout_altura_borda_sanfonada_u_h)
+
+
 
         # fim vbox layout_coluna_1_tab_u_h
         layout_coluna_1_tab_u_h.addStretch()
@@ -293,62 +343,116 @@ class JanelaPrincipal(QWidget):
         layout_coluna_2_tab_u_h = QVBoxLayout()
 
         # usinagem
-        usinagem_u_h = QLabel('Usinagem')
-        usinagem_u_h.setStyleSheet("QLabel { color : blue; }")
-        layout_coluna_2_tab_u_h.addWidget(usinagem_u_h)
+        self.usinagem_u_h = QLabel('Usinagem')
+        self.usinagem_u_h.setStyleSheet("QLabel { color : blue; }")
+        layout_coluna_2_tab_u_h.addWidget(self.usinagem_u_h)
 
         # material do tubo_tracao
-        material_tubo_tracao_u_h = QLabel('Material do tubo de tração: ')
-        layout_coluna_2_tab_u_h.addWidget(material_tubo_tracao_u_h)
+        layout_material_tubo_tracao_u_h = QHBoxLayout()
+        self.material_tubo_tracao_u_h = QLabel('Material do tubo de tração: ')
+        layout_material_tubo_tracao_u_h.addWidget(self.material_tubo_tracao_u_h)
+        self.input_material_tubo_tracao_u_h = QComboBox(self)
+        self.input_material_tubo_tracao_u_h.setPlaceholderText('0')
+        self.input_material_tubo_tracao_u_h.addItems(['0','Alumínio','Aço','Inox'])
+        ## call
+        layout_material_tubo_tracao_u_h.addWidget(self.input_material_tubo_tracao_u_h)
+        layout_material_tubo_tracao_u_h.addStretch()
+
+        layout_coluna_2_tab_u_h.addLayout(layout_material_tubo_tracao_u_h)
 
         # comprimento do tubo_tracao
-        comprimento_tubo_tracao_u_h = QLabel('Comprimento do Tubo de Tração: ')
-        layout_coluna_2_tab_u_h.addWidget(comprimento_tubo_tracao_u_h)
+        self.comprimento_tubo_tracao_u_h = QLabel('Comprimento do Tubo de Tração: ')
+        layout_coluna_2_tab_u_h.addWidget(self.comprimento_tubo_tracao_u_h)
 
         # material do eixo_tracao
-        material_eixo_tracao_u_h = QLabel('Material do Eixo de Tração: ')
-        layout_coluna_2_tab_u_h.addWidget(material_eixo_tracao_u_h)
+        layout_material_eixo_tracao_u_h = QHBoxLayout()
+        self.material_eixo_tracao_u_h = QLabel('Material do Eixo de tração: ')
+        layout_material_eixo_tracao_u_h.addWidget(self.material_eixo_tracao_u_h)
+        self.input_material_eixo_tracao_u_h = QComboBox(self)
+        self.input_material_eixo_tracao_u_h.setPlaceholderText('0')
+        self.input_material_eixo_tracao_u_h.addItems(['0','Aço','Inox'])
+        ## call
+        layout_material_eixo_tracao_u_h.addWidget(self.input_material_eixo_tracao_u_h)
+        layout_material_eixo_tracao_u_h.addStretch()
+
+        layout_coluna_2_tab_u_h.addLayout(layout_material_eixo_tracao_u_h)
 
         # comprimento do eixo_tracao
-        comprimento_eixo_tracao_u_h = QLabel('Comprimento do Eixo de tração: ')
-        layout_coluna_2_tab_u_h.addWidget(comprimento_eixo_tracao_u_h)
+        self.comprimento_eixo_tracao_u_h = QLabel('Comprimento do Eixo de Tração: ')
+        layout_coluna_2_tab_u_h.addWidget(self.comprimento_eixo_tracao_u_h)
 
         # material do tubo_livre
-        material_tubo_livre_u_h = QLabel('Material do Tubo Livre: ')
-        layout_coluna_2_tab_u_h.addWidget(material_tubo_livre_u_h)
+        layout_material_tubo_livre_u_h = QHBoxLayout()
+        self.material_tubo_livre_u_h = QLabel('Material do Tubo de Livre: ')
+        layout_material_tubo_livre_u_h.addWidget(self.material_tubo_livre_u_h)
+        self.input_material_tubo_livre_u_h = QComboBox(self)
+        self.input_material_tubo_livre_u_h.setPlaceholderText('0')
+        self.input_material_tubo_livre_u_h.addItems(['0','Alumínio','Aço','Inox'])
+        ## call
+        layout_material_tubo_livre_u_h.addWidget(self.input_material_tubo_livre_u_h)
+        layout_material_tubo_livre_u_h.addStretch()
+
+        layout_coluna_2_tab_u_h.addLayout(layout_material_tubo_livre_u_h)
 
         # comprimento do tubo_livre
-        comprimento_tubo_livre_u_h = QLabel('Comprimento do Tubo Livre: ')
-        layout_coluna_2_tab_u_h.addWidget(comprimento_tubo_livre_u_h)
+        self.comprimento_tubo_livre_u_h = QLabel('Comprimento do Tubo Livre: ')
+        layout_coluna_2_tab_u_h.addWidget(self.comprimento_tubo_livre_u_h)
 
         # material do eixo_livre
-        material_eixo_livre_u_h = QLabel('Material do Eixo Livre: ')
-        layout_coluna_2_tab_u_h.addWidget(material_eixo_livre_u_h)
+        layout_material_eixo_livre_u_h = QHBoxLayout()
+        self.material_eixo_livre_u_h = QLabel('Material do Eixo livre: ')
+        layout_material_eixo_livre_u_h.addWidget(self.material_eixo_livre_u_h)
+        self.input_material_eixo_livre_u_h = QComboBox(self)
+        self.input_material_eixo_livre_u_h.setPlaceholderText('0')
+        self.input_material_eixo_livre_u_h.addItems(['0','Aço','Inox'])
+        ## call
+        layout_material_eixo_livre_u_h.addWidget(self.input_material_eixo_livre_u_h)
+        layout_material_eixo_livre_u_h.addStretch()
+
+        layout_coluna_2_tab_u_h.addLayout(layout_material_eixo_livre_u_h)
 
         # comprimento do eixo_livre
-        comprimento_eixo_livre_u_h = QLabel('Comprimento do Eixo Livre: ')
-        layout_coluna_2_tab_u_h.addWidget(comprimento_eixo_livre_u_h)
+        self.comprimento_eixo_livre_u_h = QLabel('Comprimento do Eixo Livre: ')
+        layout_coluna_2_tab_u_h.addWidget(self.comprimento_eixo_livre_u_h)
 
         # material do tubo_inferior
-        material_tubo_inferior_u_h = QLabel('Material do Tubo Inferior: ')
-        layout_coluna_2_tab_u_h.addWidget(material_tubo_inferior_u_h)
+        layout_material_tubo_inferior_u_h = QHBoxLayout()
+        self.material_tubo_inferior_u_h = QLabel('Material do Tubo de Inferior: ')
+        layout_material_tubo_inferior_u_h.addWidget(self.material_tubo_inferior_u_h)
+        self.input_material_tubo_inferior_u_h = QComboBox(self)
+        self.input_material_tubo_inferior_u_h.setPlaceholderText('0')
+        self.input_material_tubo_inferior_u_h.addItems(['0','PVC','Alumínio','Aço','Inox'])
+        ## call
+        layout_material_tubo_inferior_u_h.addWidget(self.input_material_tubo_inferior_u_h)
+        layout_material_tubo_inferior_u_h.addStretch()
+
+        layout_coluna_2_tab_u_h.addLayout(layout_material_tubo_inferior_u_h)
 
         # comprimento do tubo_inferior
-        comprimento_tubo_inferior_u_h = QLabel('Comprimento do Tubo Inferior: ')
-        layout_coluna_2_tab_u_h.addWidget(comprimento_tubo_inferior_u_h)
+        self.comprimento_tubo_inferior_u_h = QLabel('Comprimento do Tubo Inferior: ')
+        layout_coluna_2_tab_u_h.addWidget(self.comprimento_tubo_inferior_u_h)
 
         # material do eixo_inferior
-        material_eixo_inferior_u_h = QLabel('Material do Eixo Inferior: ')
-        layout_coluna_2_tab_u_h.addWidget(material_eixo_inferior_u_h)
+        layout_material_eixo_inferior_u_h = QHBoxLayout()
+        self.material_eixo_inferior_u_h = QLabel('Material do Eixo Inferior: ')
+        layout_material_eixo_inferior_u_h.addWidget(self.material_eixo_inferior_u_h)
+        self.input_material_eixo_inferior_u_h = QComboBox(self)
+        self.input_material_eixo_inferior_u_h.setPlaceholderText('0')
+        self.input_material_eixo_inferior_u_h.addItems(['0','Aço','Inox'])
+        ## call
+        layout_material_eixo_inferior_u_h.addWidget(self.input_material_eixo_inferior_u_h)
+        layout_material_eixo_inferior_u_h.addStretch()
+    
+        layout_coluna_2_tab_u_h.addLayout(layout_material_eixo_inferior_u_h)
 
         # comprimento do eixo_inferior
-        comprimento_eixo_inferior_u_h = QLabel('Comprimento do Eixo Inferior: ')
-        layout_coluna_2_tab_u_h.addWidget(comprimento_eixo_inferior_u_h)
+        self.comprimento_eixo_inferior_u_h = QLabel('Comprimento do Eixo Inferior: ')
+        layout_coluna_2_tab_u_h.addWidget(self.comprimento_eixo_inferior_u_h)
 
         # Eletrica
-        eletrica_u_h = QLabel('Elétrica')
-        eletrica_u_h.setStyleSheet("QLabel { color : blue; }")
-        layout_coluna_2_tab_u_h.addWidget(eletrica_u_h)
+        self.eletrica_u_h = QLabel('Elétrica')
+        self.eletrica_u_h.setStyleSheet("QLabel { color : blue; }")
+        layout_coluna_2_tab_u_h.addWidget(self.eletrica_u_h)
 
         # acionamento eletrico
         layout_acionamento_u_h = QHBoxLayout()
@@ -477,10 +581,20 @@ class JanelaPrincipal(QWidget):
         layout_tab_u_h.addStretch()
 
         # fim vbox tab_u_h
+
         self.tab_u_h.setLayout(layout_tab_u_h)
         
-    ####################################
 
+        
+    ####################################
+        #tab ultraline horizontal modular
+        self.tab_u_h_modular = QWidget()
+        self.tab_configura_máquinas.addTab(self.tab_u_h_modular, 'Ultraline - Horizontal Modular')
+        layout_tab_u_h_modular = QVBoxLayout()
+
+        self.tab_u_h_modular.setLayout(layout_tab_u_h_modular)
+    ####################################
+        '''
         #tab ultraline inclinada
         self.tab_u_i = QWidget()
         self.tab_configura_máquinas.addTab(self.tab_u_i, 'Ultraline - Inclinada')
@@ -607,7 +721,7 @@ class JanelaPrincipal(QWidget):
         layout_tab_u_h_para_inclinada_modular  = QVBoxLayout()
 
         self.tab_u_h_para_inclinada_modular.setLayout(layout_tab_u_h_para_inclinada_modular)
-
+        '''
         #tab drum
         self.tab_drum = QWidget()
         self.tab_configura_máquinas.addTab(self.tab_drum , 'Drum')
@@ -905,6 +1019,9 @@ class JanelaPrincipal(QWidget):
 
         mm_pol = 25.4
         mm_pes = 304.8
+        largura_util_u_h = 0
+        comprimento_util_u_h = 0
+        diametro_cilindro_u = 76.19
 
         # Converter comprimanto util
         if self.input_comprimento_util_u_h.text():
@@ -940,7 +1057,7 @@ class JanelaPrincipal(QWidget):
                 if isinstance(float(self.input_largura_util_u_h.text()),float):
                     largura_util_u_h = float(self.input_largura_util_u_h.text())
                     largura_util_u_h_pol = largura_util_u_h/mm_pol
-                    self.largura_util_pol_u_h.setText('largura Útil [pol]: '+str(largura_util_u_h_pol))
+                    self.largura_util_pol_u_h.setText('Largura Útil [pol]: '+str(largura_util_u_h_pol))
 
                     print('converter largura_util_u_h_pol')   
 
@@ -960,15 +1077,125 @@ class JanelaPrincipal(QWidget):
             except:
                 print('erro ao converter largura_util_u_h_pol')
 
+        # mancal de tração
+        print('mancal de tração redutor:')
+        print(self.input_modelo_motoredutor_u_h.currentText())
+        if self.input_modelo_motoredutor_u_h.currentText() == '0':            
+            self.mancal_tracao_u_h.setText('Mancal de tração: Escolha Motoredutor')
+        elif self.input_modelo_motoredutor_u_h.currentText() == 'GSA 28':            
+            self.mancal_tracao_u_h.setText('Mancal de tração: GRA F 204 (rebaixar o eixo)')
+        elif self.input_modelo_motoredutor_u_h.currentText() == 'GSA 41 (Padrão)':            
+            self.mancal_tracao_u_h.setText('Mancal de tração: GRA F 204')
+        elif self.input_modelo_motoredutor_u_h.currentText() == 'GSA 51':            
+            self.mancal_tracao_u_h.setText('Mancal de tração: GRA F 205')
+        elif self.input_modelo_motoredutor_u_h.currentText() == 'GSA 63':            
+            self.mancal_tracao_u_h.setText('Mancal de tração: GRA F 206')
+        elif self.input_modelo_motoredutor_u_h.currentText() == 'GS 75':            
+            self.mancal_tracao_u_h.setText('Mancal de tração: GRA F 207')
+       
+        # Perfil U
+        #self.perfil_U_u_h = QLabel('Perfil U [mm]: ')
+        self.perfil_U_u_h.setText('Perfil U [mm]: '+str(largura_util_u_h+198.4)) #soma pefil e suporte de perda
 
+        # Altura das pernas
         '''
-        GRA F 204 (com rebaixo no eixo)
-        GRA F 204
-        GRA F 205
-        GRA F 206
-        GRA F 207
+        300	
+        600	
+        1.000	
+        1.200	
+        1.500	
+        2.000	
+        '''
+        if self.input_altura_util_u_h.text():
+            try:
+                if isinstance(float(self.input_altura_util_u_h.text()),float):
+                    #self.perna_tubo_quadrado_u_h = QLabel('Perna tubo quadrado [mm]: ')
+                    self.perna_tubo_quadrado_u_h.setText('Perna tubo quadrado [mm]: ')
+                    if float(self.input_altura_util_u_h.text()) < 300.0:
+                        self.perna_tubo_quadrado_u_h.setText('Perna tubo quadrado [mm]: 300 ')
+                    elif float(self.input_altura_util_u_h.text()) < 600.0:
+                        self.perna_tubo_quadrado_u_h.setText('Perna tubo quadrado [mm]: 600 ')
+                    elif float(self.input_altura_util_u_h.text()) < 1000.0:
+                        self.perna_tubo_quadrado_u_h.setText('Perna tubo quadrado [mm]: 1000 ')
+                    elif float(self.input_altura_util_u_h.text()) < 1200.0:
+                        self.perna_tubo_quadrado_u_h.setText('Perna tubo quadrado [mm]: 1200 ')
+                    elif float(self.input_altura_util_u_h.text()) < 1500.0:
+                        self.perna_tubo_quadrado_u_h.setText('Perna tubo quadrado [mm]: 1500 ')
+                    elif float(self.input_altura_util_u_h.text()) < 2000.0:
+                        self.perna_tubo_quadrado_u_h.setText('Perna tubo quadrado [mm]: 2000 ')
+                    elif float(self.input_altura_util_u_h.text()) > 2000.0 or 2000.0:
+                        self.perna_tubo_quadrado_u_h.setText('Perna tubo quadrado [mm]: Especial ')
+                    pass
 
-        '''        
+            except:
+                pass
+
+        # Tubo quadrado intre pernas
+        #self.tubo_interno_u_h = QLabel('Tubo Quad. entre pernas [mm]: ')
+        self.tubo_interno_u_h.setText('Tubo Quad. entre pernas [mm]: '+str(largura_util_u_h+118.7))
+
+        # Largura da correia
+        # self.largura_correia_u_h = QLabel('Largura da correira:')
+        if largura_util_u_h:
+            self.largura_correia_u_h.setText('Largura da correira [mm]: '+str(largura_util_u_h+48))
+
+        # comprimento da correia
+        # self.comprimento_correia_u_h = QLabel('Comprimento da correira:')
+        if comprimento_util_u_h:
+            self.comprimento_correia_u_h.setText('Comprimento da correira [mm]: '
+                                    +str((comprimento_util_u_h*2.0)+(math.pi*diametro_cilindro_u)))
+
+        # comprimento do tubo_tracao
+        #
+        if largura_util_u_h:
+            self.comprimento_tubo_tracao_u_h.setText('Comprimento do Tubo de Tração [mm]: '+str(largura_util_u_h+51))
+
+        # comprimento do eixo_tracao
+        if largura_util_u_h:
+            if self.input_modelo_motoredutor_u_h.currentText() == '0':            
+                self.comprimento_eixo_tracao_u_h.setText('Comprimento do Eixo de Tração [mm]: Selecione Motoredutor ')
+            elif self.input_modelo_motoredutor_u_h.currentText() == 'GSA 28':            
+                self.comprimento_eixo_tracao_u_h.setText('Comprimento do Eixo de Tração [mm]: '
+                                                        +str(largura_util_u_h+62+112.0+(46*2)))
+                                                        #(largura util)+Q[mm]+112+(F[mm]*2)
+            elif self.input_modelo_motoredutor_u_h.currentText() == 'GSA 41 (Padrão)':            
+                self.comprimento_eixo_tracao_u_h.setText('Comprimento do Eixo de Tração [mm]: '
+                                                        +str(largura_util_u_h+85+112.0+(46*2)))
+                                                        #(largura util)+Q[mm]+112+(F[mm]*2)
+            elif self.input_modelo_motoredutor_u_h.currentText() == 'GSA 51':            
+                self.comprimento_eixo_tracao_u_h.setText('Comprimento do Eixo de Tração [mm]: '
+                                                        +str(largura_util_u_h+92+112.0+(47*2)))
+                                                        #(largura util)+Q[mm]+112+(F[mm]*2)
+            elif self.input_modelo_motoredutor_u_h.currentText() == 'GSA 63':            
+                self.comprimento_eixo_tracao_u_h.setText('Comprimento do Eixo de Tração [mm]: '
+                                                        +str(largura_util_u_h+118+112.0+(54*2)))
+                                                        #(largura util)+Q[mm]+112+(F[mm]*2)
+            elif self.input_modelo_motoredutor_u_h.currentText() == 'GS 75':            
+                self.comprimento_eixo_tracao_u_h.setText('Comprimento do Eixo de Tração [mm]: '
+                                                        +str(largura_util_u_h+126+112.0+(58*2)))
+                                                        #(largura util)+Q[mm]+112+(F[mm]*2)
+
+        # comprimento do tubo_livre
+        #
+        if largura_util_u_h:
+            self.comprimento_tubo_livre_u_h.setText('Comprimento do Tubo Livre [mm]: '+str(largura_util_u_h+35))
+
+        # comprimento do eixo_livre
+        #
+        if largura_util_u_h:
+            self.comprimento_eixo_livre_u_h.setText('Comprimento do Eixo Livre [mm]: '+str(largura_util_u_h+35))
+
+        # comprimento do tubo_inferior
+        #
+        if largura_util_u_h:
+            self.comprimento_tubo_inferior_u_h.setText('Comprimento do Tubo Inferior [mm]: '+str(largura_util_u_h-18))
+        
+        # comprimento do eixo_inferior
+        if largura_util_u_h:
+            self.comprimento_eixo_inferior_u_h.setText('Comprimento do Eixo Inferior [mm]: '+str(largura_util_u_h+100))
+
+            #######
+            
 
         # fim calcula ultraline horizontal               
         pass
@@ -1140,7 +1367,7 @@ class JanelaPrincipal(QWidget):
         # calcula Potência
         #Pontência_w = (V*raiz3*FP*rendimento)*(( corrente A )*FS)
         if tensao_do_motor and FP and rendimento and corrente and FS:
-            potencia_w = (tensao_do_motor*(math.sqrt(3))*FP*rendimento)*corrente
+            potencia_w = (tensao_do_motor*(math.sqrt(3))*FP*rendimento)*(corrente*FS)
             self.potencia_w.setText('Potência [W]: '+str(potencia_w)+ ' [w]')
             #Pontência_cv = Pontência_w / (735,499)
             self.potencia_cv.setText('Potência [CV]: '+str(potencia_w/735.499)+ ' [CV]')
@@ -1197,9 +1424,102 @@ class JanelaPrincipal(QWidget):
         pdf.add_page()
         pdf.set_font('Arial', size = 12)
         pdf.cell(200, 10, txt = 'Máquina Configurada '+'Data: '+ str(dt_object),ln = 1, align ='C')
-        pdf.cell(100, 5, txt = 'Cliente :',ln = 1, align ='L')
-        pdf.cell(100, 5, txt = 'O.F. :',ln = 1, align ='L')
-        pdf.cell(100, 5, txt = 'Quantidade :',ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Cliente: '+str(self.input_cliente_u_h.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'O.F.: '+str(self.input_OF_u_h.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Quantidade: '+str(self.input_quantidade_u_h.text()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Data de Emissão: '+str(self.input_data_de_emissao_u_h.text())+
+                                '        Data de Emtrega: '+str(self.input_data_de_entrega_u_h.text())
+                                ,ln = 1, align ='L')             
+        pdf.cell(100, 5, txt = ('Comprimento Útil [mm]: '+(str(self.input_comprimento_util_u_h.text()))
+                                +str(self.comprimento_util_pol_u_h.text())[16:]
+                                +str(self.comprimento_util_pes_u_h.text())[16:]),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Largura Útil [mm]: '+str(self.input_largura_util_u_h.text())
+                                +str(self.largura_util_pol_u_h.text())[12:],ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Altura Útil [mm]: '+str(self.input_altura_util_u_h.text()),
+                                ln = 1, align ='L')
+        #self.input_modelo_motoredutor_u_h.currentText()
+        pdf.cell(100, 5, txt = 'Pintura: '+str(self.input_pintura_u_h.currentText()),
+                                ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Modelo do Motoredutor: '+str(self.input_modelo_motoredutor_u_h.currentText()),
+                                ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Modelo da Cuba: '+str(self.input_modelo_cuba_u_h.currentText()),
+                                ln = 1, align ='L')
+        # Montagem Montagem_u_h
+        pdf.cell(100, 5, txt = self.Montagem_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.perfil_lateral_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.perfil_travessa_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.chapa_apoio_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.guias_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.fixador_em_angulo_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.mancal_tracao_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.mancal_livre_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.pernas_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.perfil_U_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.perna_tubo_quadrado_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.rodizio_F_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.tubo_interno_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.correia_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.largura_correia_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.comprimento_correia_u_h.text() ,ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Pintura: '+str(self.input_cor_correia.currentText()),
+                                ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Passo da Talisca [mm]: '+str(self.input_passo_talisca.text()),
+                                ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Altura da Talisca [mm]: '+str(self.input_altura_talisca_u_h.text()),
+                                ln = 1, align ='L')
+        pdf.cell(100, 5, txt = 'Altura da Borda Sanfonada [mm]: '+str(self.input_altura_borda_sanfonada.text()),
+                                ln = 1, align ='L')
+        # usinagem
+        pdf.cell(100, 5, txt = self.usinagem_u_h.text() ,ln = 1, align ='L')
+
+        pdf.cell(100, 5, txt = 'Material do tubo de Tração: '
+        +str(self.input_material_tubo_tracao_u_h.currentText()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.comprimento_tubo_tracao_u_h.text() ,ln = 1, align ='L')
+
+        pdf.cell(100, 5, txt = 'Material do Eixo de Tração: '
+        +str(self.input_material_eixo_tracao_u_h.currentText()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.comprimento_eixo_tracao_u_h.text() ,ln = 1, align ='L')
+
+        pdf.cell(100, 5, txt = 'Material do tubo de Livre: '
+        +str(self.input_material_tubo_livre_u_h.currentText()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.comprimento_tubo_livre_u_h.text() ,ln = 1, align ='L')
+
+        pdf.cell(100, 5, txt = 'Material do eixo Livre: '
+        +str(self.input_material_eixo_livre_u_h.currentText()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.comprimento_eixo_livre_u_h.text() ,ln = 1, align ='L')
+
+        pdf.cell(100, 5, txt = 'Material do tubo de Inferior: '
+        +str(self.input_material_tubo_inferior_u_h.currentText()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.comprimento_tubo_inferior_u_h.text() ,ln = 1, align ='L')
+
+        pdf.cell(100, 5, txt = 'Material do eixo Inferior: '
+        +str(self.input_material_eixo_inferior_u_h.currentText()),ln = 1, align ='L')
+        pdf.cell(100, 5, txt = self.comprimento_eixo_inferior_u_h.text() ,ln = 1, align ='L')
+
+        #eletrica
+        pdf.cell(100, 5, txt = self.eletrica_u_h.text() ,ln = 1, align ='L')
+
+        pdf.cell(100, 5, txt = 'Acionamento Elétrico: '
+        +str(self.input_acionamento_u_h.currentText()),ln = 1, align ='L')
+
+        pdf.cell(100, 5, txt = 'Alimentação: '
+        +str(self.input_alimentacao_u_h.currentText()),ln = 1, align ='L')
+
+        pdf.cell(100, 5, txt = 'Comprimento do cabo [m]: '
+                                +str(self.input_comprimento_cabo_u_h.text()),ln = 1, align ='L')
+                
+        pdf.cell(100, 5, txt = 'Comando: '
+        +str(self.input_comando_u_h.currentText()),ln = 1, align ='L')
+        
+        pdf.cell(100, 5, txt = 'Segurança: '
+        +str(self.input_seguranca_u_h.currentText()),ln = 1, align ='L')
+
+        # Notas gerais
+
+        pdf.cell(100, 5, txt = 'Notas Gerais: '
+                                +str(self.input_notas_gerais.toPlainText()),ln = 1, align ='L')
+
+        ####fim pagina1
 
         if self.input_frequencia.text():
             pdf.add_page()
@@ -1240,6 +1560,7 @@ class JanelaPrincipal(QWidget):
             pdf.cell(100, 5, txt = str(self.torque_redutor.text()),ln = 1, align ='L')
             pdf.cell(100, 5, txt = str(self.forca_tagente.text()),ln = 1, align ='L')
             pdf.cell(100, 5, txt = str(self.carga_tagente.text()),ln = 1, align ='L')
+            
         else:
             print('Cálculos de Transporte entrada de frequência vazia')
 
