@@ -2,7 +2,7 @@
 
 - /pyqt6_book: Interfaces Gráficas com Python + PyQt6
 
-## miniconda not needed
+#### miniconda not needed
 ## python 3.10.7
 
 ### bootloader compilation
