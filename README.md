@@ -1,7 +1,6 @@
 # Tec_do_Brasil
 
-- qt6 book: Interfaces Gráficas com Python + PyQt6
-- https://sqlitebrowser.org/
+- /pyqt6_book: Interfaces Gráficas com Python + PyQt6
 
 ## miniconda not needed
 ## python 3.10.7
