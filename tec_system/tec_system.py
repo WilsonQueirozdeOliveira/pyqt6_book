@@ -3,6 +3,7 @@ import sys
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 from PyQt6.QtCore import Qt
+from PyQt6 import QtCore, QtWidgets
 
 class JanelaPrincipal(QMainWindow):
     def __init__(self):
@@ -13,7 +14,7 @@ class JanelaPrincipal(QMainWindow):
         #barra_ferramentas_botao_novo.setIcon(icon)
         #self.setWindowIcon(QIcon('icone.png'))
         self.setWindowIcon(icon)
-        self.setGeometry(700,40,1000,800)
+        self.setGeometry(700,40,1200,800)
         self.Interface()
 
     def Interface(self):
@@ -83,7 +84,8 @@ class JanelaPrincipal(QMainWindow):
         for row in range (10):
             self.layout_principal.setRowMinimumHeight(row,30)
         for colunm in range (2):
-            self.layout_principal.setColumnMinimumWidth(colunm,400)
+            self.layout_principal.setColumnMinimumWidth(colunm,500)
+        #self.layout_principal.columnStretch(0)
         
         self.main_widget.setLayout(self.layout_principal)
 
@@ -98,6 +100,12 @@ class JanelaPrincipal(QMainWindow):
 
     def show_layout_configuracao_de_maquina(self):
         self.novo()
+
+        self.titulo = ''
+        self.titulo_da_maquina = QLabel('Titulo da Máquina: '+self.titulo)
+        self.titulo_da_maquina.setStyleSheet("QLabel { color : black; font-weight: bold; }")
+        self.layout_principal.addWidget(self.titulo_da_maquina,1,0,Qt.AlignmentFlag.AlignTop)
+
         print('show_layout_configuracao_de_maquina')
         self.statusBar().showMessage('show_layout_configuracao_de_maquina')
 
@@ -106,7 +114,7 @@ class JanelaPrincipal(QMainWindow):
         self.layout_principal.addWidget(self.configuracao_de_maquina,0,0,Qt.AlignmentFlag.AlignTop)
 
         self.tipo_de_maquina = QLabel('Qual o tipo de máquina?')
-        self.layout_principal.addWidget(self.tipo_de_maquina,1,0,Qt.AlignmentFlag.AlignTop)
+        self.layout_principal.addWidget(self.tipo_de_maquina,2,0,Qt.AlignmentFlag.AlignTop)
 
         self.input_tipo_de_maquina = QComboBox(self)
         self.input_tipo_de_maquina.setFixedHeight(22)
@@ -118,7 +126,7 @@ class JanelaPrincipal(QMainWindow):
                                             'especial'])
         
         self.input_tipo_de_maquina.currentIndexChanged.connect(self.tipo_de_maquina_definido)
-        self.layout_principal.addWidget(self.input_tipo_de_maquina,1,1)
+        self.layout_principal.addWidget(self.input_tipo_de_maquina,2,1)
 
     def tipo_de_maquina_definido(self):
         self.data_input_tipo_de_maquina = self.input_tipo_de_maquina.currentText()
@@ -136,23 +144,20 @@ class JanelaPrincipal(QMainWindow):
 
     def show_modelo_da_esteira(self):        
         self.novo()
-        self.configuracao_de_maquina = QLabel('Configuração de Máquina.') 
+
+        self.titulo = ''+self.data_input_tipo_de_maquina
+        self.titulo_da_maquina = QLabel('Titulo da Máquina: '+self.titulo)
+        self.titulo_da_maquina.setStyleSheet("QLabel { color : black; font-weight: bold; }")
+        self.layout_principal.addWidget(self.titulo_da_maquina,1,0,Qt.AlignmentFlag.AlignTop)
+
+        self.configuracao_de_maquina = QLabel('Configuração de Máquina') 
         self.configuracao_de_maquina.setStyleSheet("QLabel { color : blue; }")
         self.layout_principal.addWidget(self.configuracao_de_maquina,0,0,Qt.AlignmentFlag.AlignTop)
-
-        print('show_modelo_da_esteira')
-        try:  
-            self.layout_principal.removeWidget(self.modelo_da_esteira)
-            self.modelo_da_esteira = None
-            print('self.modelo_da_esteira removido')
-        except:
-            print(' self.modelo_da_esteira widget no layout_principal nao existe ainda')
         
-        self.layout_principal.removeItem(self.layout_principal.itemAt(2))
-
         if self.data_input_tipo_de_maquina == 'esteira':
+            print('-> show_modelo_da_esteira')
             self.modelo_da_esteira = QLabel('Qual o modelo da esteira?')
-            self.layout_principal.addWidget(self.modelo_da_esteira,1,0,Qt.AlignmentFlag.AlignTop)
+            self.layout_principal.addWidget(self.modelo_da_esteira,2,0,Qt.AlignmentFlag.AlignTop)
 
             self.input_modelo_da_esteira = QComboBox(self)
             self.input_modelo_da_esteira.setFixedHeight(22)
@@ -164,8 +169,8 @@ class JanelaPrincipal(QMainWindow):
                                             'super classic'])
                                             
             self.input_modelo_da_esteira.currentIndexChanged.connect(self.show_configuracao_da_esteira)
-            self.layout_principal.addWidget(self.input_modelo_da_esteira,1,1)
-            print('esteira')
+            self.layout_principal.addWidget(self.input_modelo_da_esteira,2,1)
+            print('show_modelo_da_esteira ->')
 
     def show_modelo_do_separador(self):
         self.novo()            
@@ -176,12 +181,17 @@ class JanelaPrincipal(QMainWindow):
         self.data_input_modelo_da_esteira = self.input_modelo_da_esteira.currentText()
         self.novo()
 
-        self.configuracao_de_maquina = QLabel('Configuração de Máquina..') 
+        self.titulo = ''+self.data_input_tipo_de_maquina+' '+self.data_input_modelo_da_esteira
+        self.titulo_da_maquina = QLabel('Titulo da Máquina: '+self.titulo)
+        self.titulo_da_maquina.setStyleSheet("QLabel { color : black; font-weight: bold; }")
+        self.layout_principal.addWidget(self.titulo_da_maquina,1,0,Qt.AlignmentFlag.AlignTop)        
+
+        self.configuracao_de_maquina = QLabel('Configuração de Máquina') 
         self.configuracao_de_maquina.setStyleSheet("QLabel { color : blue; }")
         self.layout_principal.addWidget(self.configuracao_de_maquina,0,0,Qt.AlignmentFlag.AlignTop)
 
         self.configuracao_da_esteira = QLabel('Qual a configurção da esteira?')
-        self.layout_principal.addWidget(self.configuracao_da_esteira,1,0,Qt.AlignmentFlag.AlignTop)
+        self.layout_principal.addWidget(self.configuracao_da_esteira,2,0,Qt.AlignmentFlag.AlignTop)
 
         self.input_configuracao_da_esteira = QComboBox(self)
         self.input_configuracao_da_esteira.setFixedHeight(22)
@@ -193,22 +203,25 @@ class JanelaPrincipal(QMainWindow):
                                         'nose over',
                                         'Z'])
         self.input_configuracao_da_esteira.currentIndexChanged.connect(self.show_titulo_da_maquina)
-        self.layout_principal.addWidget(self.input_configuracao_da_esteira,1,1)
+        self.layout_principal.addWidget(self.input_configuracao_da_esteira,2,1)
         print('configuracao_da_esteira')
 
     def show_titulo_da_maquina(self):
         self.data_input_configuracao_da_esteira = self.input_configuracao_da_esteira.currentText()
         self.novo()
-        self.configuracao_de_maquina = QLabel('Configuração de Máquina...') 
+
+        self.configuracao_de_maquina = QLabel('Configuração de Máquina') 
         self.configuracao_de_maquina.setStyleSheet("QLabel { color : blue; }")
         self.layout_principal.addWidget(self.configuracao_de_maquina,0,0,Qt.AlignmentFlag.AlignTop)
 
         self.titulo = ''+self.data_input_tipo_de_maquina+' '+self.data_input_modelo_da_esteira+' '+self.data_input_configuracao_da_esteira
 
         self.titulo_da_maquina = QLabel('Titulo da Máquina: '+self.titulo)
+        self.titulo_da_maquina.setStyleSheet("QLabel { color : black; font-weight: bold; }")
         self.layout_principal.addWidget(self.titulo_da_maquina,1,0,Qt.AlignmentFlag.AlignTop)
         self.show_nome_do_cliente()
         self.show_numero_da_of()
+        self.show_data_de_emissao()
 
     def show_nome_do_cliente(self):
         self.nome_do_cliente = QLabel('Nome do cliente: ')
@@ -220,7 +233,14 @@ class JanelaPrincipal(QMainWindow):
         self.numero_da_of = QLabel('Numero da OF: ')
         self.layout_principal.addWidget(self.numero_da_of,3,0,Qt.AlignmentFlag.AlignTop)
         self.input_numero_da_of = QLineEdit()
-        self.layout_principal.addWidget(self.input_numero_da_of,3,1,Qt.AlignmentFlag.AlignTop)        
+        self.input_numero_da_of.setPlaceholderText('x.xxx.xxx')
+        self.layout_principal.addWidget(self.input_numero_da_of,3,1,Qt.AlignmentFlag.AlignTop) 
+
+    def show_data_de_emissao(self):
+        self.input_data_de_emissao = QDateEdit(calendarPopup=True)
+      
+        self.input_data_de_emissao.setDateTime(QtCore.QDateTime.currentDateTime())
+        self.layout_principal.addWidget(self.input_data_de_emissao,4,1,Qt.AlignmentFlag.AlignTop)       
 
     def show_layout_velocidade_e_carga_no_eixo(self):
         self.novo()
