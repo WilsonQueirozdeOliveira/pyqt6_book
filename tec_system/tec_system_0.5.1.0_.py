@@ -18,18 +18,23 @@ class JanelaPrincipal(QMainWindow):
 
         # layout_principal
         self.main_widget = QWidget()
+        #self.main_widget.setStyleSheet('background-color: #999; color: #111;')
         self.scroll = QScrollArea()
+        self.scroll.setStyleSheet('background-color: #bbb; color: #111;')
         self.layout_principal = QVBoxLayout()
         paginas = QStackedWidget()
+        
 
         # Barra de menu
         barra_menu = self.menuBar()
+        #barra_menu.setStyleSheet('background-color: #bbb; color: #111;')
 
         menu_calcular = barra_menu.addMenu('Calcular')
 
         menu_configuracao_de_maquina = menu_calcular.addMenu('Configuração de Máquina')
         botao_maquina_modelo_1 = QAction('Máquina modelo 1', self)
         menu_configuracao_de_maquina.addAction(botao_maquina_modelo_1)
+        menu_configuracao_de_maquina.triggered.connect(lambda: paginas.setCurrentIndex(1))
         # add a call to the layout of maquina modelo 1
         botao_maquina_modelo_2 = QAction('Máquina modelo 2', self)
         menu_configuracao_de_maquina.addAction(botao_maquina_modelo_2)
@@ -52,6 +57,7 @@ class JanelaPrincipal(QMainWindow):
         
         # Barra de ferramentas
         barra_ferramentas = self.addToolBar('Barra de Ferramentas')
+        barra_ferramentas.setStyleSheet('background-color: #bbb; color: #111;')
         barra_ferramentas.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         
         barra_ferramentas_botao_novo = QAction('Novo',self)#SP_FileIcon
@@ -77,6 +83,7 @@ class JanelaPrincipal(QMainWindow):
 
         #### paginas ####
 
+        # inicio pagina 0
         pagina_inicial = QWidget()
         layout_inicial = QVBoxLayout()
         pagina_inicial.setLayout(layout_inicial)
@@ -84,20 +91,28 @@ class JanelaPrincipal(QMainWindow):
         layout_inicial.addWidget(titulo_inicial)
         paginas.addWidget(pagina_inicial)
 
+        # pagina 1
         pagina_maquina_modelo_1 = QWidget()
         layout_maquina_modelo_1 = QVBoxLayout()
         pagina_maquina_modelo_1.setLayout(layout_maquina_modelo_1)
-        titulo_maquina_modelo_1 = QLabel('maquina modelo 1')
+        titulo_maquina_modelo_1 = QLabel('maquina modelo 1\n text test\n text test2')
         layout_maquina_modelo_1.addWidget(titulo_maquina_modelo_1)
         paginas.addWidget(pagina_maquina_modelo_1)
 
+        # pagina 2
         pagina_velocidade_e_carga_no_eixo = QWidget()
         layout_velocidade_e_carga_no_eixo = QVBoxLayout()
         pagina_velocidade_e_carga_no_eixo.setLayout(layout_velocidade_e_carga_no_eixo)
         titulo_velocidade_e_carga_no_eixo = QLabel('titulo_velocidade_e_carga_no_eixo')
+        #titulo_velocidade_e_carga_no_eixo.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        #titulo_velocidade_e_carga_no_eixo.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        #titulo_velocidade_e_carga_no_eixo.setFixedWidth(400)
+        #titulo_velocidade_e_carga_no_eixo.setFixedHeight(50)
         layout_velocidade_e_carga_no_eixo.addWidget(titulo_velocidade_e_carga_no_eixo)
+        #pagina_velocidade_e_carga_no_eixo.setStyleSheet('background-color: #999; color: #111;;')
         paginas.addWidget(pagina_velocidade_e_carga_no_eixo)
 
+        # configurações gerais da gui (executar janela)
         self.main_widget.setLayout(self.layout_principal)
 
         self.layout_principal.addWidget(paginas)
@@ -106,7 +121,10 @@ class JanelaPrincipal(QMainWindow):
 
         self.setCentralWidget(self.scroll)
 
-        self.show()
+        # Connect the currentChanged signal to a slot that updates the layout
+        paginas.currentChanged.connect(self.update_layout_size)
+
+        #self.show()
         
 
     def novo(self):
@@ -114,6 +132,13 @@ class JanelaPrincipal(QMainWindow):
 
     def gerar_pdf(self):
         print('gerar pdf')
+
+    def update_layout_size(self):
+        # This method can be used to update the layout size when the page changes
+        #self.centralWidget().updateGeometry()
+        print('updateGeometry')
+        self.updateGeometry()
+        #self.adjustSize()
 
     def confirma_saida(self):
         confirma = QMessageBox.question(self,
@@ -140,6 +165,11 @@ class JanelaPrincipal(QMainWindow):
             event.ignore()
 
 qt = QApplication(sys.argv)
+
+# Set the application style to a dark theme (Fusion)
+#app.setStyleSheet('.QLabel { font-size: 14pt;} .QLineEdit { font-size: 14pt;}')
+qt.setStyleSheet('.QLabel { font-size: 14pt;} .QLineEdit { font-size: 14pt;}')
+#app.setStyle(QStyleFactory.create('Fusion'))
 app = JanelaPrincipal()
-app.setStyleSheet('.QLabel { font-size: 14pt;} .QLineEdit { font-size: 14pt;}')
+app.show()
 sys.exit(qt.exec())
